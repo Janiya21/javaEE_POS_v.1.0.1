@@ -517,6 +517,24 @@
         $("#txtTelNo").val(null);
     });
 
+    /*function bindClickEvents() {
+        $("##customer-body>tr").click(function () {
+            //Get values from the selected row
+            let id = $(this).children().eq(0).text();
+            let name = $(this).children().eq(1).text();
+            let address = $(this).children().eq(2).text();
+            let salary = $(this).children().eq(3).text();
+
+            console.log(id,name,address,salary + " oooooo ");
+
+            //Set values to the text-fields
+            $("#txtCustomerId").val(id);
+            $("#txtCustomerName").val(name);
+            $("#txtEmail").val(address);
+            $("#txtTelNo").val(salary);
+        });
+    }*/
+
     function loadCustomersToTextFields(row){
         let cusID = $(row).children(":eq(0)").text();
         let cusName = $(row).children(":eq(1)").text();
@@ -530,6 +548,10 @@
         $("#txtEmail").val(email);
         $("#txtTelNo").val(telNo);
     }
+
+    $("#customer-body>tr").click(function (){
+        loadCustomersToTextFields(this);
+    });
 
 
     $( document ).ready(function() {
@@ -546,12 +568,13 @@
                     let row = `<tr><td>${customer.id}</td><td>${customer.name}</td><td>${customer.email}</td><td>${customer.telNo}</td></tr>`;
                     $("#customerTable").append(row);
                 }
-                loadCustomersToTextFields();
+
+                $("#customer-body>tr").click(function (){
+                    loadCustomersToTextFields(this);
+                });
             }
         });
     }
-
-    loadCustomersToTextFields();
 
     $("#addNewCustomer").click(function (){
 
