@@ -255,7 +255,7 @@
                         </div>
 
                         <div class="col float-end mt-2">
-                            <button type="button" class="btn btn-danger float-end mb-2 me-3"> Delete Cust</button>
+                            <button type="button" id="btnDeleteCustomer" class="btn btn-danger float-end mb-2 me-3"> Delete Cust</button>
                             <button type="button" id="updateCustomer" class="btn btn-success float-end mb-2 me-3"> Update Cust </button>
                             <button id="addNewCustomer" type="button" class="btn btn-dark float-end mb-2 me-3"> Add Cust</button>
                             <button id="btnSrchCustomer" class="btn btn-warning ms-3 mb-2" type="button"> Search </button>
@@ -500,12 +500,44 @@
 
     /*=================== Customer Config =======================*/
 
+    function navigateToNext(from,to,req){
+        $(from).keyup(function (event){
+            if(event.key == "Enter"){
+                if($(req).text() === '') {
+                    $(to).focus();
+                }
+            }
+        });
+    }
+
+    $("#clearCusFields").click(function (){
+        $("#txtCustomerId").val(null);
+        $("#txtCustomerName").val(null);
+        $("#txtEmail").val(null);
+        $("#txtTelNo").val(null);
+    });
+
+    function loadCustomersToTextFields(row){
+        let cusID = $(row).children(":eq(0)").text();
+        let cusName = $(row).children(":eq(1)").text();
+        let email = $(row).children(":eq(2)").text();
+        let telNo = $(row).children(":eq(3)").text();
+
+        console.log(cusID, cusName, email, telNo);
+
+        $("#txtCustomerId").val(cusID);
+        $("#txtCustomerName").val(cusName);
+        $("#txtEmail").val(email);
+        $("#txtTelNo").val(telNo);
+    }
+
+
     $( document ).ready(function() {
         loadAllCustomers();
     });
 
     function loadAllCustomers() {
-        $("#customerTable>tr").empty();
+        $("#customer-body").empty();
         $.ajax({
             url: "customer",
             method: "GET",
@@ -514,11 +546,12 @@
                     let row = `<tr><td>${customer.id}</td><td>${customer.name}</td><td>${customer.email}</td><td>${customer.telNo}</td></tr>`;
                     $("#customerTable").append(row);
                 }
-                // bindClickEvents();
+                loadCustomersToTextFields();
             }
         });
-
     }
+
+    loadCustomersToTextFields();
 
     $("#addNewCustomer").click(function (){
 
@@ -536,11 +569,61 @@
                 }
             }
         })
-
-
     });
 
+    $("#btnDeleteCustomer").click(function (){
+        let customerID = $("#txtCustomerId").val();
 
+        $.ajax({
+            url:"customer?CusID="+customerID,
+            method: "DELETE",
+            success:function (res){
+                console.log(res);
+                if (res.status === 200) {
+                    alert(res.message);
+                    loadAllCustomers();
+                } else if (res.status === 400) {
+                    alert(res.data);
+                } else {
+                    alert(res.data);
+                }
+            },
+            error:function (ob, status, t){
+                console.log(ob);
+                console.log(status);
+                console.log(t);
+            }
+        })
+    });
+
+    $("#updateCustomer").click(function (){
+        var cusOb = {
+            id: $("#txtCustomerId").val(),
+            name: $("#txtCustomerName").val(),
+            address: $("#txtEmail").val(),
+            salary: $("#txtTelNo").val()
+        }
+
+        $.ajax({
+            url: "customer",
+            method: "PUT",
+            contentType: "application/json",
+            data: JSON.stringify(cusOb), // format js object to valid json string
+            success: function (res) {
+                if (res.status === 200) {
+                    alert(res.message);
+                    loadAllCustomers();
+                } else if (res.status === 400) {
+                    alert(res.message);
+                } else {
+                    alert(res.data);
+                }
+            },
+            error: function (ob, errorStus) {
+                console.log(ob);
+            }
+        });
+    });
 
 </script>
 
