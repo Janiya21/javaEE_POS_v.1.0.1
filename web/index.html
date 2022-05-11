@@ -461,17 +461,6 @@
 
 <script src="assets/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="assets/jQuery/jquery-3.6.0.min.js"></script>
-<script src="db/DB.js"></script>
-<script src="model/ItemDTO.js"></script>
-<script src="model/CustomerDTO.js"></script>
-<script src="controller/ItemController.js"></script>
-<script src="controller/CustomerController.js"></script>
-<script src="controller/OrderController.js"></script>
-<script src="controller/OrderDetailController.js"></script>
-<script src="model/CustomerDTO.js"></script>
-<script src="model/ItemDTO.js"></script>
-<script src="model/OrderDTO.js"></script>
-<script src="model/OrderDetailDTO.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 
 <script>
@@ -508,6 +497,29 @@
             objEvent.preventDefault(); // stops its action
         }
     });
+
+    /*=================== Customer Config =======================*/
+
+    $( document ).ready(function() {
+        loadAllCustomers();
+    });
+
+    function loadAllCustomers() {
+        $("#customerTable>tr").empty();
+        $.ajax({
+            url: "customer",
+            method: "GET",
+            success: function (resp) {
+                for (const customer of resp.data) {
+                    let row = `<tr><td>${customer.id}</td><td>${customer.name}</td><td>${customer.email}</td><td>${customer.telNo}</td></tr>`;
+                    $("#customerTable").append(row);
+                    alert(customer.id + " " + customer.name + " " + customer.email)
+                }
+                // bindClickEvents();
+            }
+        });
+
+    }
 
 </script>
 
