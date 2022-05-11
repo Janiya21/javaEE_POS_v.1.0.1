@@ -144,7 +144,7 @@
             </div>
 
             <div class="row" style="height: 84vh">
-                <form>
+                <form id="itemForm">
                     <div class="mb-3">
                         <label for="txtItemCode" id="lblItemId" class="form-label">Item Code</label>
                         <div class="row">
@@ -500,16 +500,6 @@
 
     /*=================== Customer Config =======================*/
 
-    function navigateToNext(from,to,req){
-        $(from).keyup(function (event){
-            if(event.key == "Enter"){
-                if($(req).text() === '') {
-                    $(to).focus();
-                }
-            }
-        });
-    }
-
     $("#clearCusFields").click(function (){
         $("#txtCustomerId").val(null);
         $("#txtCustomerName").val(null);
@@ -632,6 +622,145 @@
             method: "PUT",
             contentType: "application/json",
             data: JSON.stringify(cusOb), // format js object to valid json string
+            success: function (res) {
+                if (res.status === 200) {
+                    alert(res.message);
+                    loadAllCustomers();
+                } else if (res.status === 400) {
+                    alert(res.message);
+                } else {
+                    alert(res.data);
+                }
+            },
+            error: function (ob, errorStus) {
+                console.log(ob);
+            }
+        });
+    });
+
+    /*=================== Item Config =======================*/
+
+    $("#clearItemFields").click(function (){
+        $("#txtItemCode").val(null);
+        $("#txtItemName").val(null);
+        $("#txtQty").val(null);
+        $("#txtUnitPrice").val(null);
+    });
+
+    /*function bindClickEvents() {
+        $("##customer-body>tr").click(function () {
+            //Get values from the selected row
+            let id = $(this).children().eq(0).text();
+            let name = $(this).children().eq(1).text();
+            let address = $(this).children().eq(2).text();
+            let salary = $(this).children().eq(3).text();
+
+            console.log(id,name,address,salary + " oooooo ");
+
+            //Set values to the text-fields
+            $("#txtCustomerId").val(id);
+            $("#txtCustomerName").val(name);
+            $("#txtEmail").val(address);
+            $("#txtTelNo").val(salary);
+        });
+    }*/
+
+    function loadItemsToTextFields(row){
+        let itemID = $(row).children(":eq(0)").text();
+        let itemName = $(row).children(":eq(1)").text();
+        let qty = $(row).children(":eq(2)").text();
+        let uniPrice = $(row).children(":eq(3)").text();
+
+        console.log(itemID, itemName, qty, uniPrice);
+
+        $("#txtCustomerId").val(itemID);
+        $("#txtCustomerName").val(itemName);
+        $("#txtEmail").val(qty);
+        $("#txtTelNo").val(uniPrice);
+    }
+
+    $("#item-body>tr").click(function (){
+        loadItemsToTextFields(this);
+    });
+
+    $( document ).ready(function() {
+        loadAllItems();
+    });
+
+    function loadAllItems() {
+        $("#item-body").empty();
+        $.ajax({
+            url: "item",
+            method: "GET",
+            success: function (resp) {
+                for (const item of resp.data) {
+                    let row = `<tr><td>${item.id}</td><td>${item.name}</td><td>${item.price}</td><td>${item.qty}</td></tr>`;
+                    $("#itemTable").append(row);
+                }
+
+                $("#item-body>tr").click(function (){
+                    loadItemsToTextFields(this);
+                });
+            }
+        });
+    }
+
+    $("#addNewItem").click(function (){
+
+        let data = $("#itemForm").serialize();
+        $.ajax({
+            url: "item",
+            method: "POST",
+            data:data,
+            success:function (res){
+                if (res.status === 200) {
+                    alert(res.message);
+                    loadAllCustomers();
+                } else {
+                    alert(res.data);
+                }
+            }
+        })
+    });
+
+    $("#dltItem").click(function (){
+        let itemCode = $("#txtItemCode").val();
+
+        $.ajax({
+            url:"item?itemID="+itemCode,
+            method: "DELETE",
+            success:function (res){
+                console.log(res);
+                if (res.status === 200) {
+                    alert(res.message);
+                    loadAllCustomers();
+                } else if (res.status === 400) {
+                    alert(res.data);
+                } else {
+                    alert(res.data);
+                }
+            },
+            error:function (ob, status, t){
+                console.log(ob);
+                console.log(status);
+                console.log(t);
+            }
+        })
+    });
+
+    $("#updateItem").click(function (){
+        var itemOb = {
+            id: $("#txtItemCode").val(),
+            name: $("#txtItemName").val(),
+            price: $("#txtUnitPrice").val(),
+            qty: $("#txtQuantity").val()
+        }
+
+        $.ajax({
+            url: "item",
+            method: "PUT",
+            contentType: "application/json",
+            data: JSON.stringify(itemOb), // format js object to valid json string
             success: function (res) {
                 if (res.status === 200) {
                     alert(res.message);
