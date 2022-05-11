@@ -149,7 +149,7 @@
                         <label for="txtItemCode" id="lblItemId" class="form-label">Item Code</label>
                         <div class="row">
                             <div class="col-10">
-                                <input type="text" class="form-control" disabled id="txtItemCode" aria-describedby="nameHelp" placeholder="Item Code">
+                                <input type="text" class="form-control" id="txtItemCode" aria-describedby="nameHelp" placeholder="Item Code">
                             </div>
                             <div class="col-1">
                                 <button type="button"  style="border-radius: 40%">
@@ -216,12 +216,12 @@
             </div>
 
             <div class="row two" style="height: 84vh">
-                <form>
+                <form id="customerForm">
                     <div class="mb-3">
                         <label for="txtCustomerId" class="form-label">Customer Id</label>
                         <div class="row">
                             <div class="col-10">
-                                <input type="text" class="form-control" disabled id="txtCustomerId" aria-describedby="telHelp" placeholder="Customer Id">
+                                <input type="text" class="form-control" name="customerId" id="txtCustomerId" aria-describedby="telHelp" placeholder="Customer Id">
                             </div>
                             <div class="col-1">
                                 <button type="button" style="border-radius: 40%">
@@ -233,17 +233,17 @@
                     </div>
                     <div class="mb-3">
                         <label for="txtCustomerName" class="form-label">Name</label>
-                        <input type="text" class="form-control" id="txtCustomerName" aria-describedby="nameHelp" placeholder="Customer Name">
+                        <input type="text" class="form-control" name="customerName" id="txtCustomerName" aria-describedby="nameHelp" placeholder="Customer Name">
                         <p class="text-danger float-end txtReq" id="req-txtCusName"></p>
                     </div>
                     <div class="mb-3">
                         <label for="txtEmail" class="form-label">Email address</label>
-                        <input type="email" class="form-control" id="txtEmail" aria-describedby="emailHelp" placeholder="Email Address">
+                        <input type="email" class="form-control" name="customerEmail" id="txtEmail" aria-describedby="emailHelp" placeholder="Email Address">
                         <p class="text-danger float-end txtReq" id="req-txtCusAddress"></p>
                     </div>
                     <div class="mb-3">
                         <label for="txtTelNo" class="form-label">Tel No</label>
-                        <input type="text" class="form-control" id="txtTelNo" aria-describedby="telHelp" placeholder="Telephone">
+                        <input type="text" class="form-control" name="customerTelNo" id="txtTelNo" aria-describedby="telHelp" placeholder="Telephone">
                         <p class="text-danger float-end txtReq" id="req-txtCusTel"></p>
                     </div>
 
@@ -513,13 +513,34 @@
                 for (const customer of resp.data) {
                     let row = `<tr><td>${customer.id}</td><td>${customer.name}</td><td>${customer.email}</td><td>${customer.telNo}</td></tr>`;
                     $("#customerTable").append(row);
-                    alert(customer.id + " " + customer.name + " " + customer.email)
                 }
                 // bindClickEvents();
             }
         });
 
     }
+
+    $("#addNewCustomer").click(function (){
+
+        let data = $("#customerForm").serialize();
+        $.ajax({
+            url: "customer",
+            method: "POST",
+            data:data,
+            success:function (res){
+                if (res.status === 200) {
+                    alert(res.message);
+                    loadAllCustomers();
+                } else {
+                    alert(res.data);
+                }
+            }
+        })
+
+
+    });
+
+
 
 </script>
 
