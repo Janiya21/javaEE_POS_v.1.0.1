@@ -668,8 +668,8 @@
     function loadItemsToTextFields(row){
         let itemID = $(row).children(":eq(0)").text();
         let itemName = $(row).children(":eq(1)").text();
-        let qty = $(row).children(":eq(2)").text();
-        let uniPrice = $(row).children(":eq(3)").text();
+        let uniPrice = $(row).children(":eq(2)").text();
+        let qty = $(row).children(":eq(3)").text();
 
         console.log(itemID, itemName, qty, uniPrice);
 
@@ -753,7 +753,7 @@
             id: $("#txtItemCode").val(),
             name: $("#txtItemName").val(),
             price: $("#txtUnitPrice").val(),
-            qty: $("#txtQuantity").val()
+            qty: $("#txtQty").val()
         }
 
         $.ajax({
