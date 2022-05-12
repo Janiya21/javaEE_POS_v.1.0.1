@@ -149,7 +149,7 @@
                         <label for="txtItemCode" id="lblItemId" class="form-label">Item Code</label>
                         <div class="row">
                             <div class="col-10">
-                                <input type="text" class="form-control" id="txtItemCode" aria-describedby="nameHelp" placeholder="Item Code">
+                                <input type="text" name="itemCode" class="form-control" id="txtItemCode" aria-describedby="nameHelp" placeholder="Item Code">
                             </div>
                             <div class="col-1">
                                 <button type="button"  style="border-radius: 40%">
@@ -161,17 +161,17 @@
                     </div>
                     <div class="mb-3">
                         <label for="txtItemName" class="form-label">Name</label>
-                        <input type="text" class="form-control" id="txtItemName" aria-describedby="nameHelp" placeholder="Item Name">
+                        <input type="text" name="itemName" class="form-control" id="txtItemName" aria-describedby="nameHelp" placeholder="Item Name">
                         <p class="text-danger float-end txtReq" id="req-txtItemName"></p>
                     </div>
                     <div class="mb-3">
                         <label for="txtUnitPrice" class="form-label">Unit Price</label>
-                        <input type="text" class="form-control" id="txtUnitPrice" aria-describedby="nameHelp" placeholder="Unit Price">
+                        <input type="text" name="unitPrice" class="form-control" id="txtUnitPrice" aria-describedby="nameHelp" placeholder="Unit Price">
                         <p class="text-danger float-end txtReq" id="req-txtItemPrice"></p>
                     </div>
                     <div class="mb-3">
                         <label for="txtQty" class="form-label">Quantity</label>
-                        <input type="text" class="form-control" id="txtQty" aria-describedby="nameHelp" placeholder="Qty">
+                        <input type="text" name="qty" class="form-control" id="txtQty" aria-describedby="nameHelp" placeholder="Qty">
                         <p class="text-danger float-end txtReq" id="req-txtItemQty"></p>
                     </div>
 
@@ -673,10 +673,10 @@
 
         console.log(itemID, itemName, qty, uniPrice);
 
-        $("#txtCustomerId").val(itemID);
-        $("#txtCustomerName").val(itemName);
-        $("#txtEmail").val(qty);
-        $("#txtTelNo").val(uniPrice);
+        $("#txtItemCode").val(itemID);
+        $("#txtItemName").val(itemName);
+        $("#txtQty").val(qty);
+        $("#txtUnitPrice").val(uniPrice);
     }
 
     $("#item-body>tr").click(function (){
@@ -694,7 +694,7 @@
             method: "GET",
             success: function (resp) {
                 for (const item of resp.data) {
-                    let row = `<tr><td>${item.id}</td><td>${item.name}</td><td>${item.price}</td><td>${item.qty}</td></tr>`;
+                    let row = `<tr><td>${item.code}</td><td>${item.name}</td><td>${item.price}</td><td>${item.qty}</td></tr>`;
                     $("#itemTable").append(row);
                 }
 
@@ -715,7 +715,7 @@
             success:function (res){
                 if (res.status === 200) {
                     alert(res.message);
-                    loadAllCustomers();
+                    loadAllItems();
                 } else {
                     alert(res.data);
                 }
@@ -733,7 +733,7 @@
                 console.log(res);
                 if (res.status === 200) {
                     alert(res.message);
-                    loadAllCustomers();
+                    loadAllItems();
                 } else if (res.status === 400) {
                     alert(res.data);
                 } else {
@@ -764,7 +764,7 @@
             success: function (res) {
                 if (res.status === 200) {
                     alert(res.message);
-                    loadAllCustomers();
+                    loadAllItems();
                 } else if (res.status === 400) {
                     alert(res.message);
                 } else {
