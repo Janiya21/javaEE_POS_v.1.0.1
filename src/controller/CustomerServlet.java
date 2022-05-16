@@ -109,33 +109,28 @@ public class CustomerServlet extends HttpServlet {
         }
     }
 
-    /*@Override
+    @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String cusID = req.getParameter("CusID");
         PrintWriter writer = resp.getWriter();
         resp.setContentType("application/json");
 
-        Connection connection = null;
-        try {
-            connection = dataSource.getConnection();
-            PreparedStatement pstm = connection.prepareStatement("Delete from Customer where id=?");
-            pstm.setObject(1, cusID);
+        CustomerDTO customerDTO = new CustomerDTO(cusID,null,null,0);
 
-            if (pstm.executeUpdate() > 0) {
+        try {
+            if (customerBO.deleteCustomer(customerDTO)){
                 JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
                 objectBuilder.add("status", 200);
                 objectBuilder.add("data", "");
                 objectBuilder.add("message", "Successfully Deleted");
                 writer.print(objectBuilder.build());
-            } else {
+            }else {
                 JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
                 objectBuilder.add("status", 400);
                 objectBuilder.add("data", "Wrong Id Inserted");
                 objectBuilder.add("message", "");
                 writer.print(objectBuilder.build());
             }
-            connection.close();
-
         } catch (SQLException throwables) {
             resp.setStatus(200);
             JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
@@ -188,5 +183,5 @@ public class CustomerServlet extends HttpServlet {
             objectBuilder.add("data", throwables.getLocalizedMessage());
             writer.print(objectBuilder.build());
         }
-    }*/
+    }
 }

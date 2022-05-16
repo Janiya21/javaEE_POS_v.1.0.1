@@ -50,12 +50,20 @@ public class CustomerDAOImpl implements CustomerDAO {
         pstm.setObject(3,customer.getEmail());
         pstm.setObject(4,customer.getTelNo());
 
+        connection.close();
+
         return pstm.executeUpdate() > 0;
     }
 
     @Override
-    public boolean deleteCustomer(Customer customer) {
-        return false;
+    public boolean deleteCustomer(Customer customer) throws SQLException {
+        Connection connection = CustomerServlet.dataSource.getConnection();
+        PreparedStatement pstm = connection.prepareStatement("Delete from Customer where id=?");
+        pstm.setObject(1, customer.getCustomerId());
+
+        connection.close();
+
+        return pstm.executeUpdate() > 0;
     }
 
     @Override
