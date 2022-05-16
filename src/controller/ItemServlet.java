@@ -79,27 +79,26 @@ public class ItemServlet extends HttpServlet {
         String unitPrice = req.getParameter("unitPrice");
         String qty = req.getParameter("qty");
 
+        ItemDTO itemDTO = new ItemDTO(itemCode,itemName,Double.parseDouble(unitPrice),Integer.parseInt(qty));
+
         PrintWriter writer = resp.getWriter();
 
         resp.setContentType("application/json");
 
         try {
-            Connection connection = dataSource.getConnection();
-            PreparedStatement pstm = connection.prepareStatement("Insert into Item values(?,?,?,?)");
-            pstm.setObject(1,itemCode);
-            pstm.setObject(2,itemName);
-            pstm.setObject(3,unitPrice);
-            pstm.setObject(4,qty);
+            boolean added = itemBO.addItem(itemDTO);
+            JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
+            resp.setStatus(HttpServletResponse.SC_CREATED);
 
-            if(pstm.executeUpdate() > 0){
-                JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
-                resp.setStatus(HttpServletResponse.SC_CREATED);
+            if(added){
                 objectBuilder.add("status", 200);
-                objectBuilder.add("message", "Item Successfully Added");
-                objectBuilder.add("data", "");
-                writer.print(objectBuilder.build());
+                objectBuilder.add("message", "Successfully Added");
+            }else{
+                objectBuilder.add("status", 400);
+                objectBuilder.add("message", "Added Not Successful !!");
             }
-            connection.close();
+            objectBuilder.add("data", "");
+            writer.print(objectBuilder.build());
 
         } catch (SQLException throwables) {
             JsonObjectBuilder response = Json.createObjectBuilder();
@@ -118,30 +117,22 @@ public class ItemServlet extends HttpServlet {
         PrintWriter writer = resp.getWriter();
         resp.setContentType("application/json");
 
-        Connection connection = null;
-        try {
-            connection = dataSource.getConnection();
-            PreparedStatement pstm = connection.prepareStatement("Delete from item where itemCode=?");
-            pstm.setObject(1, itemID);
+        ItemDTO itemDTO = new ItemDTO(itemID,null,0.0,0);
 
-            if (pstm.executeUpdate() > 0) {
-                JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
+        JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
+        resp.setStatus(200);
+        try {
+            if (itemBO.deleteItem(itemDTO)){
                 objectBuilder.add("status", 200);
                 objectBuilder.add("data", "");
                 objectBuilder.add("message", "Successfully Deleted");
-                writer.print(objectBuilder.build());
-            } else {
-                JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
+            }else {
                 objectBuilder.add("status", 400);
                 objectBuilder.add("data", "Wrong Id Inserted");
                 objectBuilder.add("message", "");
-                writer.print(objectBuilder.build());
             }
-            connection.close();
-
+            writer.print(objectBuilder.build());
         } catch (SQLException throwables) {
-            resp.setStatus(200);
-            JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
             objectBuilder.add("status", 500);
             objectBuilder.add("message", "Error");
             objectBuilder.add("data", throwables.getLocalizedMessage());
@@ -152,9 +143,11 @@ public class ItemServlet extends HttpServlet {
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+        PrintWriter writer = resp.getWriter();
+        resp.setContentType("application/json");
+
         JsonReader reader = Json.createReader(req.getReader());
         JsonObject jsonObject = reader.readObject();
-
         String itemCode = jsonObject.getString("id");
         String itemName = jsonObject.getString("name");
         String unitPrice = jsonObject.getString("price");
@@ -162,33 +155,23 @@ public class ItemServlet extends HttpServlet {
 
         System.out.println(itemCode + " " + itemName + " " + unitPrice + " " + qty);
 
-        PrintWriter writer = resp.getWriter();
-        resp.setContentType("application/json");
+        ItemDTO itemDTO = new ItemDTO(itemCode,itemName,Double.parseDouble(unitPrice),Integer.parseInt(qty));
+
+        JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
+        resp.setStatus(200);
 
         try {
-            Connection connection = dataSource.getConnection();
-            PreparedStatement pstm = connection.prepareStatement("Update Item set name=?,unitPrice=?,qty=? where itemCode=?");
-            pstm.setObject(1, itemName);
-            pstm.setObject(2, unitPrice);
-            pstm.setObject(3, qty);
-            pstm.setObject(4, itemCode);
-
-            if (pstm.executeUpdate() > 0) {
-                JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
+            if (itemBO.updateItem(itemDTO)) {
                 objectBuilder.add("status", 200);
                 objectBuilder.add("message", "Successfully Updated");
                 objectBuilder.add("data", "");
-                writer.print(objectBuilder.build());
             } else {
-                JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
                 objectBuilder.add("status", 400);
                 objectBuilder.add("message", "Update Failed");
                 objectBuilder.add("data", "");
-                writer.print(objectBuilder.build());
             }
-            connection.close();
+            writer.print(objectBuilder.build());
         } catch (SQLException throwables) {
-            JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
             objectBuilder.add("status", 500);
             objectBuilder.add("message", "Update Failed");
             objectBuilder.add("data", throwables.getLocalizedMessage());
