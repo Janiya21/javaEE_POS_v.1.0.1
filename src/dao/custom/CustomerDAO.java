@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface CustomerDAO extends SuperDAO {
     public List<Customer> getAllCustomers() throws SQLException;
-    public boolean addCustomer(Customer customer);
+    public boolean addCustomer(Customer customer) throws SQLException;
     public boolean deleteCustomer(Customer customer);
     public boolean updateCustomer(Customer customer);
 }

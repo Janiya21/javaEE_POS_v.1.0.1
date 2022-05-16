@@ -39,8 +39,9 @@ public class CustomerBOImpl implements CustomerBO {
     }
 
     @Override
-    public boolean addCustomer(CustomerDTO customerDTO) {
-        return false;
+    public boolean addCustomer(CustomerDTO customerDTO) throws SQLException {
+        Customer customer = new Customer(customerDTO.getCustomerId(),customerDTO.getCustomerName(),customerDTO.getEmail(),customerDTO.getTelNo());
+        return customerDAO.addCustomer(customer);
     }
 
     @Override

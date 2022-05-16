@@ -71,7 +71,7 @@ public class CustomerServlet extends HttpServlet {
         }
     }
 
-    /*@Override
+    @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String customerId = req.getParameter("customerId");
         String customerName = req.getParameter("customerName");
@@ -80,20 +80,13 @@ public class CustomerServlet extends HttpServlet {
 
         CustomerDTO customerDTO = new CustomerDTO(customerId,customerName,customerEmail,Integer.parseInt(customerTelNo));
 
-
         PrintWriter writer = resp.getWriter();
 
         resp.setContentType("application/json");
 
         try {
-            Connection connection = dataSource.getConnection();
-            PreparedStatement pstm = connection.prepareStatement("Insert into Customer values(?,?,?,?)");
-            pstm.setObject(1,customerId);
-            pstm.setObject(2,customerName);
-            pstm.setObject(3,customerEmail);
-            pstm.setObject(4,customerTelNo);
-
-            if(pstm.executeUpdate() > 0){
+            boolean added = customerBO.addCustomer(customerDTO);
+            if(added){
                 JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
                 resp.setStatus(HttpServletResponse.SC_CREATED);
                 objectBuilder.add("status", 200);
@@ -101,7 +94,6 @@ public class CustomerServlet extends HttpServlet {
                 objectBuilder.add("data", "");
                 writer.print(objectBuilder.build());
             }
-            connection.close();
 
         } catch (SQLException throwables) {
             JsonObjectBuilder response = Json.createObjectBuilder();
@@ -193,5 +185,5 @@ public class CustomerServlet extends HttpServlet {
             objectBuilder.add("data", throwables.getLocalizedMessage());
             writer.print(objectBuilder.build());
         }
-    }*/
+    }
 }
