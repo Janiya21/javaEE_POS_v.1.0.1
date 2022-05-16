@@ -11,5 +11,5 @@ public interface CustomerBO extends SuperBO {
     public List<CustomerDTO> getAllCustomers() throws SQLException;
     public boolean addCustomer(CustomerDTO customerDTO) throws SQLException;
     public boolean deleteCustomer(CustomerDTO customerDTO) throws SQLException;
-    public boolean updateCustomer(CustomerDTO customerDTO);
+    public boolean updateCustomer(CustomerDTO customerDTO) throws SQLException;
 }

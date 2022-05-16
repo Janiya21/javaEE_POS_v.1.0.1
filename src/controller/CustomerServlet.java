@@ -87,12 +87,14 @@ public class CustomerServlet extends HttpServlet {
         try {
             boolean added = customerBO.addCustomer(customerDTO);
             JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
-            objectBuilder.add("status", 200);
+
             if(added){
                 //resp.setStatus(HttpServletResponse.SC_CREATED);
+                objectBuilder.add("status", 200);
                 objectBuilder.add("message", "Successfully Added");
             }else{
                 //resp.setStatus(HttpServletResponse.SC_CREATED);
+                objectBuilder.add("status", 400);
                 objectBuilder.add("message", "Added Not Successful !!");
             }
             objectBuilder.add("data", "");
@@ -100,7 +102,7 @@ public class CustomerServlet extends HttpServlet {
 
         } catch (SQLException throwables) {
             JsonObjectBuilder response = Json.createObjectBuilder();
-            response.add("status", 400);
+            response.add("status", 500);
             response.add("message", "Error");
             response.add("data", throwables.getLocalizedMessage());
             writer.print(response.build());
@@ -144,6 +146,9 @@ public class CustomerServlet extends HttpServlet {
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+        PrintWriter writer = resp.getWriter();
+        resp.setContentType("application/json");
+
         JsonReader reader = Json.createReader(req.getReader());
         JsonObject jsonObject = reader.readObject();
         String customerID = jsonObject.getString("id");
@@ -151,18 +156,10 @@ public class CustomerServlet extends HttpServlet {
         String customerAddress = jsonObject.getString("address");
         String customerSalary = jsonObject.getString("salary");
 
-        PrintWriter writer = resp.getWriter();
-        resp.setContentType("application/json");
+        CustomerDTO customerDTO = new CustomerDTO(customerID,customerName,customerAddress,Integer.parseInt(customerSalary));
 
         try {
-            Connection connection = dataSource.getConnection();
-            PreparedStatement pstm = connection.prepareStatement("Update Customer set name=?,email=?,telNo=? where id=?");
-            pstm.setObject(1, customerName);
-            pstm.setObject(2, customerAddress);
-            pstm.setObject(3, customerSalary);
-            pstm.setObject(4, customerID);
-
-            if (pstm.executeUpdate() > 0) {
+            if (customerBO.updateCustomer(customerDTO)) {
                 JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
                 objectBuilder.add("status", 200);
                 objectBuilder.add("message", "Successfully Updated");
@@ -175,7 +172,6 @@ public class CustomerServlet extends HttpServlet {
                 objectBuilder.add("data", "");
                 writer.print(objectBuilder.build());
             }
-            connection.close();
         } catch (SQLException throwables) {
             JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
             objectBuilder.add("status", 500);

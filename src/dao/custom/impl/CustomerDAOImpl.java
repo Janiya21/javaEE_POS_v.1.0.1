@@ -50,9 +50,10 @@ public class CustomerDAOImpl implements CustomerDAO {
         pstm.setObject(3,customer.getEmail());
         pstm.setObject(4,customer.getTelNo());
 
+        int executeUpdate = pstm.executeUpdate();
         connection.close();
 
-        return pstm.executeUpdate() > 0;
+        return executeUpdate > 0;
     }
 
     @Override
@@ -61,13 +62,24 @@ public class CustomerDAOImpl implements CustomerDAO {
         PreparedStatement pstm = connection.prepareStatement("Delete from Customer where id=?");
         pstm.setObject(1, customer.getCustomerId());
 
+        int executeUpdate = pstm.executeUpdate();
         connection.close();
 
-        return pstm.executeUpdate() > 0;
+        return executeUpdate > 0;
     }
 
     @Override
-    public boolean updateCustomer(Customer customer) {
-        return false;
+    public boolean updateCustomer(Customer customer) throws SQLException {
+        Connection connection = CustomerServlet.dataSource.getConnection();
+        PreparedStatement pstm = connection.prepareStatement("Update Customer set name=?,email=?,telNo=? where id=?");
+        pstm.setObject(1, customer.getCustomerName());
+        pstm.setObject(2, customer.getEmail());
+        pstm.setObject(3, customer.getTelNo());
+        pstm.setObject(4, customer.getCustomerId());
+
+        int executeUpdate = pstm.executeUpdate();
+        connection.close();
+
+        return executeUpdate > 0;
     }
 }

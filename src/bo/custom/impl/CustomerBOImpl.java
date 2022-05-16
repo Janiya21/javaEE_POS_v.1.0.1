@@ -47,11 +47,12 @@ public class CustomerBOImpl implements CustomerBO {
     @Override
     public boolean deleteCustomer(CustomerDTO customerDTO) throws SQLException {
         Customer customer = new Customer(customerDTO.getCustomerId(),customerDTO.getCustomerName(),customerDTO.getEmail(),customerDTO.getTelNo());
-        return customerDAO.addCustomer(customer);
+        return customerDAO.deleteCustomer(customer);
     }
 
     @Override
-    public boolean updateCustomer(CustomerDTO customerDTO) {
-        return false;
+    public boolean updateCustomer(CustomerDTO customerDTO) throws SQLException {
+        Customer customer = new Customer(customerDTO.getCustomerId(),customerDTO.getCustomerName(),customerDTO.getEmail(),customerDTO.getTelNo());
+        return customerDAO.updateCustomer(customer);
     }
 }
