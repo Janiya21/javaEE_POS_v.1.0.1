@@ -2,7 +2,10 @@ package controller;
 
 import bo.BOFactory;
 import bo.custom.impl.CustomerBOImpl;
+import bo.custom.impl.ItemBOImpl;
 import dto.CustomerDTO;
+import dto.ItemDTO;
+import entity.Item;
 
 import javax.annotation.Resource;
 import javax.json.*;
@@ -27,7 +30,7 @@ public class ItemServlet extends HttpServlet {
     @Resource(name = "java:comp/env/jdbc/pool")
     DataSource dataSource;
 
-    CustomerBOImpl customerBO = (CustomerBOImpl) BOFactory.getInstance().getBO(BOFactory.BOType.CUSTOMER);
+    ItemBOImpl itemBO = (ItemBOImpl) BOFactory.getInstance().getBO(BOFactory.BOType.ITEM);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -40,15 +43,15 @@ public class ItemServlet extends HttpServlet {
 
             JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
 
-            List<CustomerDTO> allCustomers = customerBO.getAllCustomers();
+            List<ItemDTO> allItems = itemBO.getAllItems();
 
-            for (CustomerDTO ac : allCustomers) {
+            for (ItemDTO ic : allItems) {
                 JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
 
-                objectBuilder.add("id", ac.getCustomerId());
-                objectBuilder.add("name", ac.getCustomerName());
-                objectBuilder.add("email", ac.getEmail());
-                objectBuilder.add("telNo", ac.getTelNo());
+                objectBuilder.add("code", ic.getItemCode());
+                objectBuilder.add("name", ic.getItemName());
+                objectBuilder.add("price", ic.getUnitPrice());
+                objectBuilder.add("qty", ic.getQty());
 
                 arrayBuilder.add(objectBuilder.build());
             }
