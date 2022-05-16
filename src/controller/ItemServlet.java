@@ -1,5 +1,9 @@
 package controller;
 
+import bo.BOFactory;
+import bo.custom.impl.CustomerBOImpl;
+import dto.CustomerDTO;
+
 import javax.annotation.Resource;
 import javax.json.*;
 import javax.servlet.ServletException;
@@ -14,6 +18,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 
 @WebServlet(urlPatterns = "/item")
@@ -22,30 +27,28 @@ public class ItemServlet extends HttpServlet {
     @Resource(name = "java:comp/env/jdbc/pool")
     DataSource dataSource;
 
+    CustomerBOImpl customerBO = (CustomerBOImpl) BOFactory.getInstance().getBO(BOFactory.BOType.CUSTOMER);
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         PrintWriter writer = resp.getWriter();
+        resp.setStatus(200);
 
         try {
             resp.setContentType("application/json");
-            Connection connection = dataSource.getConnection();
 
-            ResultSet rst = connection.prepareStatement("select * from Item").executeQuery();
             JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
 
-            while (rst.next()){
-                String id = rst.getString(1);
-                String name = rst.getString(2);
-                Double price = rst.getDouble(3);
-                int qty = rst.getInt(4);
+            List<CustomerDTO> allCustomers = customerBO.getAllCustomers();
 
+            for (CustomerDTO ac : allCustomers) {
                 JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
 
-                objectBuilder.add("code", id);
-                objectBuilder.add("name", name);
-                objectBuilder.add("price", price);
-                objectBuilder.add("qty", qty);
+                objectBuilder.add("id", ac.getCustomerId());
+                objectBuilder.add("name", ac.getCustomerName());
+                objectBuilder.add("email", ac.getEmail());
+                objectBuilder.add("telNo", ac.getTelNo());
 
                 arrayBuilder.add(objectBuilder.build());
             }
@@ -56,15 +59,12 @@ public class ItemServlet extends HttpServlet {
             response.add("data", arrayBuilder.build());
             writer.print(response.build());
 
-            connection.close();
-
         } catch (SQLException throwables) {
             JsonObjectBuilder response = Json.createObjectBuilder();
             response.add("status", 400);
             response.add("message", "Error");
             response.add("data", throwables.getLocalizedMessage());
             writer.print(response.build());
-            resp.setStatus(HttpServletResponse.SC_OK); //200
             throwables.printStackTrace();
         }
     }

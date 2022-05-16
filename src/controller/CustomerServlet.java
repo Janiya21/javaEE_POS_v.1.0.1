@@ -35,6 +35,7 @@ public class CustomerServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         PrintWriter writer = resp.getWriter();
+        resp.setStatus(200);
 
         try {
             resp.setContentType("application/json");
@@ -66,7 +67,6 @@ public class CustomerServlet extends HttpServlet {
             response.add("message", "Error");
             response.add("data", throwables.getLocalizedMessage());
             writer.print(response.build());
-            resp.setStatus(HttpServletResponse.SC_OK); //200
             throwables.printStackTrace();
         }
     }
@@ -87,13 +87,12 @@ public class CustomerServlet extends HttpServlet {
         try {
             boolean added = customerBO.addCustomer(customerDTO);
             JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
+            resp.setStatus(HttpServletResponse.SC_CREATED);
 
             if(added){
-                //resp.setStatus(HttpServletResponse.SC_CREATED);
                 objectBuilder.add("status", 200);
                 objectBuilder.add("message", "Successfully Added");
             }else{
-                //resp.setStatus(HttpServletResponse.SC_CREATED);
                 objectBuilder.add("status", 400);
                 objectBuilder.add("message", "Added Not Successful !!");
             }
@@ -119,23 +118,20 @@ public class CustomerServlet extends HttpServlet {
 
         CustomerDTO customerDTO = new CustomerDTO(cusID,null,null,0);
 
+        JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
+        resp.setStatus(200);
         try {
             if (customerBO.deleteCustomer(customerDTO)){
-                JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
                 objectBuilder.add("status", 200);
                 objectBuilder.add("data", "");
                 objectBuilder.add("message", "Successfully Deleted");
-                writer.print(objectBuilder.build());
             }else {
-                JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
                 objectBuilder.add("status", 400);
                 objectBuilder.add("data", "Wrong Id Inserted");
                 objectBuilder.add("message", "");
-                writer.print(objectBuilder.build());
             }
+            writer.print(objectBuilder.build());
         } catch (SQLException throwables) {
-            resp.setStatus(200);
-            JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
             objectBuilder.add("status", 500);
             objectBuilder.add("message", "Error");
             objectBuilder.add("data", throwables.getLocalizedMessage());
@@ -158,22 +154,21 @@ public class CustomerServlet extends HttpServlet {
 
         CustomerDTO customerDTO = new CustomerDTO(customerID,customerName,customerAddress,Integer.parseInt(customerSalary));
 
+        JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
+        resp.setStatus(200);
+
         try {
             if (customerBO.updateCustomer(customerDTO)) {
-                JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
                 objectBuilder.add("status", 200);
                 objectBuilder.add("message", "Successfully Updated");
                 objectBuilder.add("data", "");
-                writer.print(objectBuilder.build());
             } else {
-                JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
                 objectBuilder.add("status", 400);
                 objectBuilder.add("message", "Update Failed");
                 objectBuilder.add("data", "");
-                writer.print(objectBuilder.build());
             }
+            writer.print(objectBuilder.build());
         } catch (SQLException throwables) {
-            JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
             objectBuilder.add("status", 500);
             objectBuilder.add("message", "Update Failed");
             objectBuilder.add("data", throwables.getLocalizedMessage());
