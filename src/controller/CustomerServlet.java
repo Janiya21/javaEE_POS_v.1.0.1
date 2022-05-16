@@ -86,14 +86,17 @@ public class CustomerServlet extends HttpServlet {
 
         try {
             boolean added = customerBO.addCustomer(customerDTO);
+            JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
+            objectBuilder.add("status", 200);
             if(added){
-                JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
-                resp.setStatus(HttpServletResponse.SC_CREATED);
-                objectBuilder.add("status", 200);
+                //resp.setStatus(HttpServletResponse.SC_CREATED);
                 objectBuilder.add("message", "Successfully Added");
-                objectBuilder.add("data", "");
-                writer.print(objectBuilder.build());
+            }else{
+                //resp.setStatus(HttpServletResponse.SC_CREATED);
+                objectBuilder.add("message", "Added Not Successful !!");
             }
+            objectBuilder.add("data", "");
+            writer.print(objectBuilder.build());
 
         } catch (SQLException throwables) {
             JsonObjectBuilder response = Json.createObjectBuilder();
@@ -106,7 +109,7 @@ public class CustomerServlet extends HttpServlet {
         }
     }
 
-    @Override
+    /*@Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String cusID = req.getParameter("CusID");
         PrintWriter writer = resp.getWriter();
@@ -185,5 +188,5 @@ public class CustomerServlet extends HttpServlet {
             objectBuilder.add("data", throwables.getLocalizedMessage());
             writer.print(objectBuilder.build());
         }
-    }
+    }*/
 }
