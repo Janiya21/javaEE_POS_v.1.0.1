@@ -1,5 +1,7 @@
 package controller;
 
+import dto.CustomerDTO;
+
 import javax.annotation.Resource;
 import javax.json.*;
 import javax.servlet.ServletException;
@@ -19,9 +21,6 @@ import java.sql.SQLException;
 @WebServlet(urlPatterns = "/customer")
 public class CustomerServlet extends HttpServlet {
 
-    @Resource(name = "java:comp/env/jdbc/pool")
-    DataSource dataSource;
-
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
@@ -29,9 +28,10 @@ public class CustomerServlet extends HttpServlet {
 
         try {
             resp.setContentType("application/json");
-            Connection connection = dataSource.getConnection();
 
+            Connection connection = dataSource.getConnection();
             ResultSet rst = connection.prepareStatement("select * from Customer").executeQuery();
+
             JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
 
             while (rst.next()){
@@ -75,6 +75,9 @@ public class CustomerServlet extends HttpServlet {
         String customerName = req.getParameter("customerName");
         String customerEmail = req.getParameter("customerEmail");
         String customerTelNo = req.getParameter("customerTelNo");
+
+        CustomerDTO customerDTO = new CustomerDTO(customerId,customerName,customerEmail,Integer.parseInt(customerTelNo));
+
 
         PrintWriter writer = resp.getWriter();
 
