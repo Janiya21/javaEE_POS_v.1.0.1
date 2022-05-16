@@ -1,4 +1,6 @@
 package dao.custom.impl;
 
-public class ItemDAOImpl {
+import dao.custom.ItemDAO;
+
+public class ItemDAOImpl implements ItemDAO {
 }

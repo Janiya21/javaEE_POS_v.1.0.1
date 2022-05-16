@@ -1,6 +1,10 @@
 package controller;
 
+import bo.BOFactory;
+import bo.custom.impl.CustomerBOImpl;
+import dao.custom.impl.CustomerDAOImpl;
 import dto.CustomerDTO;
+import entity.Customer;
 
 import javax.annotation.Resource;
 import javax.json.*;
@@ -16,10 +20,16 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 
 @WebServlet(urlPatterns = "/customer")
 public class CustomerServlet extends HttpServlet {
+
+    @Resource(name = "java:comp/env/jdbc/pool")
+    public static DataSource dataSource;
+
+    CustomerBOImpl customerBO = (CustomerBOImpl) BOFactory.getInstance().getBO(BOFactory.BOType.CUSTOMER);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -29,23 +39,17 @@ public class CustomerServlet extends HttpServlet {
         try {
             resp.setContentType("application/json");
 
-            Connection connection = dataSource.getConnection();
-            ResultSet rst = connection.prepareStatement("select * from Customer").executeQuery();
-
             JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
 
-            while (rst.next()){
-                String id = rst.getString(1);
-                String name = rst.getString(2);
-                String email = rst.getString(3);
-                int tel = rst.getInt(4);
+            List<CustomerDTO> allCustomers = customerBO.getAllCustomers();
 
+            for (CustomerDTO ac : allCustomers) {
                 JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
 
-                objectBuilder.add("id", id);
-                objectBuilder.add("name", name);
-                objectBuilder.add("email", email);
-                objectBuilder.add("telNo", tel);
+                objectBuilder.add("id", ac.getCustomerId());
+                objectBuilder.add("name", ac.getCustomerName());
+                objectBuilder.add("email", ac.getEmail());
+                objectBuilder.add("telNo", ac.getTelNo());
 
                 arrayBuilder.add(objectBuilder.build());
             }
@@ -55,8 +59,6 @@ public class CustomerServlet extends HttpServlet {
             response.add("message", "Done");
             response.add("data", arrayBuilder.build());
             writer.print(response.build());
-
-            connection.close();
 
         } catch (SQLException throwables) {
             JsonObjectBuilder response = Json.createObjectBuilder();
@@ -69,7 +71,7 @@ public class CustomerServlet extends HttpServlet {
         }
     }
 
-    @Override
+    /*@Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String customerId = req.getParameter("customerId");
         String customerName = req.getParameter("customerName");
@@ -191,5 +193,5 @@ public class CustomerServlet extends HttpServlet {
             objectBuilder.add("data", throwables.getLocalizedMessage());
             writer.print(objectBuilder.build());
         }
-    }
+    }*/
 }

@@ -1,6 +1,8 @@
 package bo.custom.impl;
 
 import bo.custom.CustomerBO;
+import dao.DAOFactory;
+import dao.custom.impl.CustomerDAOImpl;
 import dto.CustomerDTO;
 import entity.Customer;
 
@@ -14,9 +16,26 @@ import java.util.List;
 
 public class CustomerBOImpl implements CustomerBO {
 
+    CustomerDAOImpl customerDAO = (CustomerDAOImpl) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.CUSTOMER);
+
     @Override
     public List<CustomerDTO> getAllCustomers() throws SQLException {
-        return null;
+        List<Customer> allCustomers = customerDAO.getAllCustomers();
+
+        ArrayList<CustomerDTO> customerDTOS = new ArrayList<>();
+
+        for (Customer customer :  allCustomers) {
+
+            System.out.println(customer.getCustomerId()+ customer.getCustomerName()+ customer.getEmail()+ customer.getTelNo());
+
+            customerDTOS.add(new CustomerDTO(
+                    customer.getCustomerId(),
+                    customer.getCustomerName(),
+                    customer.getEmail(),
+                    customer.getTelNo()
+            ));
+        }
+        return customerDTOS;
     }
 
     @Override
