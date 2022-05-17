@@ -35,40 +35,76 @@ public class ItemServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+        String option = req.getParameter("option");
+
+        resp.setContentType("application/json");
+
         PrintWriter writer = resp.getWriter();
         resp.setStatus(200);
 
-        try {
-            resp.setContentType("application/json");
+        switch (option){
+            case "GETIDS":
+                try {
+                    JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
 
-            JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
+                    List<ItemDTO> allItems = itemBO.getAllItems();
 
-            List<ItemDTO> allItems = itemBO.getAllItems();
+                    for (ItemDTO ic : allItems) {
+                        JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
 
-            for (ItemDTO ic : allItems) {
-                JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
+                        objectBuilder.add("code", ic.getItemCode());
 
-                objectBuilder.add("code", ic.getItemCode());
-                objectBuilder.add("name", ic.getItemName());
-                objectBuilder.add("price", ic.getUnitPrice());
-                objectBuilder.add("qty", ic.getQty());
+                        arrayBuilder.add(objectBuilder.build());
+                    }
 
-                arrayBuilder.add(objectBuilder.build());
-            }
+                    JsonObjectBuilder response = Json.createObjectBuilder();
+                    response.add("status", 200);
+                    response.add("message", "Done");
+                    response.add("data", arrayBuilder.build());
+                    writer.print(response.build());
 
-            JsonObjectBuilder response = Json.createObjectBuilder();
-            response.add("status", 200);
-            response.add("message", "Done");
-            response.add("data", arrayBuilder.build());
-            writer.print(response.build());
+                } catch (SQLException throwables) {
+                    JsonObjectBuilder response = Json.createObjectBuilder();
+                    response.add("status", 400);
+                    response.add("message", "Error");
+                    response.add("data", throwables.getLocalizedMessage());
+                    writer.print(response.build());
+                    throwables.printStackTrace();
+                }
+                break;
 
-        } catch (SQLException throwables) {
-            JsonObjectBuilder response = Json.createObjectBuilder();
-            response.add("status", 400);
-            response.add("message", "Error");
-            response.add("data", throwables.getLocalizedMessage());
-            writer.print(response.build());
-            throwables.printStackTrace();
+            case "GETALL":
+                try {
+                    JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
+
+                    List<ItemDTO> allItems = itemBO.getAllItems();
+
+                    for (ItemDTO ic : allItems) {
+                        JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
+
+                        objectBuilder.add("code", ic.getItemCode());
+                        objectBuilder.add("name", ic.getItemName());
+                        objectBuilder.add("price", ic.getUnitPrice());
+                        objectBuilder.add("qty", ic.getQty());
+
+                        arrayBuilder.add(objectBuilder.build());
+                    }
+
+                    JsonObjectBuilder response = Json.createObjectBuilder();
+                    response.add("status", 200);
+                    response.add("message", "Done");
+                    response.add("data", arrayBuilder.build());
+                    writer.print(response.build());
+
+                } catch (SQLException throwables) {
+                    JsonObjectBuilder response = Json.createObjectBuilder();
+                    response.add("status", 400);
+                    response.add("message", "Error");
+                    response.add("data", throwables.getLocalizedMessage());
+                    writer.print(response.build());
+                    throwables.printStackTrace();
+                }
+                break;
         }
     }
 

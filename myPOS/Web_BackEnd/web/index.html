@@ -551,7 +551,7 @@
     function loadAllCustomers() {
         $("#customer-body").empty();
         $.ajax({
-            url: "customer",
+            url: "customer?option=GETALL",
             method: "GET",
             success: function (resp) {
                 for (const customer of resp.data) {
@@ -690,7 +690,7 @@
     function loadAllItems() {
         $("#item-body").empty();
         $.ajax({
-            url: "item",
+            url: "item?option=GETALL",
             method: "GET",
             success: function (resp) {
                 for (const item of resp.data) {
@@ -776,6 +776,35 @@
             }
         });
     });
+
+    /*=================== Order Config =======================*/
+
+    $("#placeOrder").click(function (){
+        $("#customerID-selector").empty();
+        $.ajax({
+            url: "customer?option=GETIDS",
+            method: "GET",
+            success: function (resp) {
+                for (const customer of resp.data) {
+                    let row = `<option value="${customer.id}">${customer.id}</option>`;
+                    $("#customerID-selector").append(row);
+                }
+            }
+        });
+
+        $("#itemID-selector").empty();
+        $.ajax({
+            url: "item?option=GETIDS",
+            method: "GET",
+            success: function (resp) {
+                for (const item of resp.data) {
+                    let row = `<option value="${item.code}">${item.code}</option>`;
+                    $("#itemID-selector").append(row);
+                }
+            }
+        });
+    });
+
 
 </script>
 
