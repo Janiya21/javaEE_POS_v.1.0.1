@@ -36,6 +36,7 @@ public class ItemServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         String option = req.getParameter("option");
+        String id = req.getParameter("code");
 
         resp.setContentType("application/json");
 
@@ -94,6 +95,34 @@ public class ItemServlet extends HttpServlet {
                     response.add("status", 200);
                     response.add("message", "Done");
                     response.add("data", arrayBuilder.build());
+                    writer.print(response.build());
+
+                } catch (SQLException throwables) {
+                    JsonObjectBuilder response = Json.createObjectBuilder();
+                    response.add("status", 400);
+                    response.add("message", "Error");
+                    response.add("data", throwables.getLocalizedMessage());
+                    writer.print(response.build());
+                    throwables.printStackTrace();
+                }
+                break;
+
+            case "GETITEM":
+                try {
+
+                    JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
+
+                    ItemDTO ac = itemBO.getItem(id);
+
+                    objectBuilder.add("id", ac.getItemCode());
+                    objectBuilder.add("name", ac.getItemName());
+                    objectBuilder.add("price", ac.getUnitPrice());
+                    objectBuilder.add("qty", ac.getQty());
+
+                    JsonObjectBuilder response = Json.createObjectBuilder();
+                    response.add("status", 200);
+                    response.add("message", "Done");
+                    response.add("data", objectBuilder.build());
                     writer.print(response.build());
 
                 } catch (SQLException throwables) {

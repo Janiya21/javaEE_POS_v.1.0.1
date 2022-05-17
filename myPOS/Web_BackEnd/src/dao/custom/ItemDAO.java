@@ -12,4 +12,5 @@ public interface ItemDAO extends SuperDAO {
     public boolean addItem(Item item) throws SQLException;
     public boolean deleteItem(Item item) throws SQLException;
     public boolean updateItem(Item item) throws SQLException;
+    public Item getItem(String id) throws SQLException;
 }

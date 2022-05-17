@@ -821,6 +821,22 @@
         });
     });
 
+    $("#itemID-selector").click(function (){
+        var itemID = $("#itemID-selector").val();
+        console.log(itemID + " this is ID");
+
+        $.ajax({
+            url: "item?option=GETITEM&code="+itemID,
+            method: "GET",
+            success: function (resp) {
+                console.log(resp.data.id + " ado " + resp.data.name + "  ,  " + resp.data.price);
+                $("#itemName").val(resp.data.name);
+                $("#unitPrice").val(resp.data.price);
+                $("#itemQty").val(resp.data.qty);
+            }
+        });
+    });
+
 </script>
 
 </body>

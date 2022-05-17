@@ -78,4 +78,21 @@ public class ItemDAOImpl implements ItemDAO {
 
         return executeUpdate > 0;
     }
+
+    @Override
+    public Item getItem(String id) throws SQLException {
+        Connection connection = ItemServlet.dataSource.getConnection();
+        PreparedStatement pstm = connection.prepareStatement("select * from Item where itemCode=?");
+        pstm.setObject(1,id);
+
+        ResultSet rst = pstm.executeQuery();
+
+        Item item=null;
+
+        if (rst.next()) {
+            item = new Item(rst.getString(1),rst.getString(2),
+                   Double.parseDouble( rst.getString(3)),Integer.parseInt(rst.getString(4)));
+        }
+        return item;
+    }
 }

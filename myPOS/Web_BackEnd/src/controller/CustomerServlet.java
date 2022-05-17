@@ -150,11 +150,12 @@ public class CustomerServlet extends HttpServlet {
         PrintWriter writer = resp.getWriter();
 
         resp.setContentType("application/json");
+        resp.setStatus(HttpServletResponse.SC_CREATED);
+
+        JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
 
         try {
             boolean added = customerBO.addCustomer(customerDTO);
-            JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
-            resp.setStatus(HttpServletResponse.SC_CREATED);
 
             if(added){
                 objectBuilder.add("status", 200);
@@ -168,10 +169,10 @@ public class CustomerServlet extends HttpServlet {
 
         } catch (SQLException throwables) {
             JsonObjectBuilder response = Json.createObjectBuilder();
-            response.add("status", 500);
-            response.add("message", "Error");
-            response.add("data", throwables.getLocalizedMessage());
-            writer.print(response.build());
+            objectBuilder.add("status", 500);
+            objectBuilder.add("message", "Error");
+            objectBuilder.add("data", throwables.getLocalizedMessage());
+            writer.print(objectBuilder.build());
             resp.setStatus(HttpServletResponse.SC_OK);
             throwables.printStackTrace();
         }
