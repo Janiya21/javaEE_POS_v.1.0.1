@@ -1,6 +1,7 @@
 package dao.custom.impl;
 
 import controller.CustomerServlet;
+import controller.ItemServlet;
 import dao.custom.ItemDAO;
 import entity.Customer;
 import entity.Item;
@@ -16,7 +17,7 @@ public class ItemDAOImpl implements ItemDAO {
 
     @Override
     public List<Item> getAllItems() throws SQLException {
-        Connection connection = CustomerServlet.dataSource.getConnection();
+        Connection connection = ItemServlet.dataSource.getConnection();
         ResultSet rst = connection.prepareStatement("select * from Item").executeQuery();
 
         List<Item> ItemDTOS = new ArrayList<>();
@@ -38,7 +39,7 @@ public class ItemDAOImpl implements ItemDAO {
 
     @Override
     public boolean addItem(Item item) throws SQLException {
-        Connection connection = CustomerServlet.dataSource.getConnection();
+        Connection connection = ItemServlet.dataSource.getConnection();
         PreparedStatement pstm = connection.prepareStatement("Insert into Item values(?,?,?,?)");
         pstm.setObject(1,item.getItemCode());
         pstm.setObject(2,item.getItemName());
@@ -53,8 +54,8 @@ public class ItemDAOImpl implements ItemDAO {
 
     @Override
     public boolean deleteItem(Item item) throws SQLException {
-        Connection connection = CustomerServlet.dataSource.getConnection();
-        PreparedStatement pstm = connection.prepareStatement("Delete from Item where id=?");
+        Connection connection = ItemServlet.dataSource.getConnection();
+        PreparedStatement pstm = connection.prepareStatement("Delete from Item where itemCode=?");
         pstm.setObject(1, item.getItemCode());
 
         int executeUpdate = pstm.executeUpdate();
@@ -65,12 +66,12 @@ public class ItemDAOImpl implements ItemDAO {
 
     @Override
     public boolean updateItem(Item item) throws SQLException {
-        Connection connection = CustomerServlet.dataSource.getConnection();
+        Connection connection = ItemServlet.dataSource.getConnection();
         PreparedStatement pstm = connection.prepareStatement("Update Item set name=?,unitPrice=?,qty=? where itemCode=?");
-        pstm.setObject(1, item.getItemCode());
-        pstm.setObject(2, item.getItemName());
-        pstm.setObject(3, item.getUnitPrice());
-        pstm.setObject(4, item.getQty());
+        pstm.setObject(1, item.getItemName());
+        pstm.setObject(2, item.getUnitPrice());
+        pstm.setObject(3, item.getQty());
+        pstm.setObject(4, item.getItemCode());
 
         int executeUpdate = pstm.executeUpdate();
         connection.close();
