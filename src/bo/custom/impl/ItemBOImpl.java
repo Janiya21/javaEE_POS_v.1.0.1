@@ -43,12 +43,12 @@ public class ItemBOImpl implements ItemBO {
     @Override
     public boolean deleteItem(ItemDTO itemDTO) throws SQLException {
         Item customer = new Item(itemDTO.getItemCode(),itemDTO.getItemName(),itemDTO.getUnitPrice(),itemDTO.getQty());
-        return itemDAO.deleteItem(customer);
+        return itemDAO.addItem(customer);
     }
 
     @Override
     public boolean updateItem(ItemDTO itemDTO) throws SQLException {
         Item customer = new Item(itemDTO.getItemCode(),itemDTO.getItemName(),itemDTO.getUnitPrice(),itemDTO.getQty());
-        return itemDAO.updateItem(customer);
+        return itemDAO.addItem(customer);
     }
 }

@@ -28,7 +28,7 @@ import java.util.List;
 public class ItemServlet extends HttpServlet {
 
     @Resource(name = "java:comp/env/jdbc/pool")
-    public static DataSource dataSource;
+    DataSource dataSource;
 
     ItemBOImpl itemBO = (ItemBOImpl) BOFactory.getInstance().getBO(BOFactory.BOType.ITEM);
 
@@ -153,7 +153,7 @@ public class ItemServlet extends HttpServlet {
         String unitPrice = jsonObject.getString("price");
         String qty = jsonObject.getString("qty");
 
-        System.out.println(itemCode + " " + itemName + " " + unitPrice + " " + qty + ".....");
+        System.out.println(itemCode + " " + itemName + " " + unitPrice + " " + qty);
 
         ItemDTO itemDTO = new ItemDTO(itemCode,itemName,Double.parseDouble(unitPrice),Integer.parseInt(qty));
 
