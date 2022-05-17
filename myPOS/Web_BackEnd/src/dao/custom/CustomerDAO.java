@@ -12,4 +12,5 @@ public interface CustomerDAO extends SuperDAO {
     public boolean addCustomer(Customer customer) throws SQLException;
     public boolean deleteCustomer(Customer customer) throws SQLException;
     public boolean updateCustomer(Customer customer) throws SQLException;
+    public Customer getCustomer(String id) throws SQLException;
 }

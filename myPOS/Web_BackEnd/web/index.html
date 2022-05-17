@@ -805,6 +805,21 @@
         });
     });
 
+    $("#customerID-selector").click(function (){
+        var customerID = $("#customerID-selector").val();
+        console.log(customerID + " this is ID");
+
+        $.ajax({
+            url: "customer?option=GETCUSTOMER&id="+customerID,
+            method: "GET",
+            success: function (resp) {
+                console.log(resp.data.id + " ado " + resp.data.name + "  ,  " + resp.data.email);
+                $("#customName").val(resp.data.name);
+                $("#customAddress").val(resp.data.email);
+                $("#customTelNo").val(resp.data.telNo);
+            }
+        });
+    });
 
 </script>
 

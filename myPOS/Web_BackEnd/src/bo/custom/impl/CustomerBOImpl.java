@@ -55,4 +55,10 @@ public class CustomerBOImpl implements CustomerBO {
         Customer customer = new Customer(customerDTO.getCustomerId(),customerDTO.getCustomerName(),customerDTO.getEmail(),customerDTO.getTelNo());
         return customerDAO.updateCustomer(customer);
     }
+
+    @Override
+    public CustomerDTO getCustomer(String id) throws SQLException {
+        Customer customer = customerDAO.getCustomer(id);
+        return new CustomerDTO(customer.getCustomerId(),customer.getCustomerName(),customer.getEmail(),customer.getTelNo());
+    }
 }

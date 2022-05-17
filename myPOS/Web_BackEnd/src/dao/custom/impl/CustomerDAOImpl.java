@@ -82,4 +82,21 @@ public class CustomerDAOImpl implements CustomerDAO {
 
         return executeUpdate > 0;
     }
+
+    @Override
+    public Customer getCustomer(String id) throws SQLException {
+        Connection connection = CustomerServlet.dataSource.getConnection();
+        PreparedStatement pstm = connection.prepareStatement("select * from Customer where id=?");
+        pstm.setObject(1,id);
+
+        ResultSet rst = pstm.executeQuery();
+
+        Customer customer=null;
+
+        if (rst.next()) {
+            customer = new Customer(rst.getString(1),rst.getString(2),
+                    rst.getString(3),Integer.parseInt(rst.getString(4)));
+        }
+        return customer;
+    }
 }

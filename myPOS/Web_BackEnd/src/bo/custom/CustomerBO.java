@@ -2,6 +2,7 @@ package bo.custom;
 
 import bo.SuperBO;
 import dto.CustomerDTO;
+import entity.Customer;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
@@ -12,4 +13,5 @@ public interface CustomerBO extends SuperBO {
     public boolean addCustomer(CustomerDTO customerDTO) throws SQLException;
     public boolean deleteCustomer(CustomerDTO customerDTO) throws SQLException;
     public boolean updateCustomer(CustomerDTO customerDTO) throws SQLException;
+    public CustomerDTO getCustomer(String id) throws SQLException;
 }
