@@ -908,14 +908,7 @@
         }
     }
 
-    function loadAllItemsToOrderTable(){
-        $("#order-body").empty();
-        for(const i in orders) {
-            let row = `<tr><td>${orders[i].getORDItemId()}</td><td>${orders[i].getORDItemName()}</td><td>${orders[i].getORDUnits()}</td>
-                    <td>${orders[i].getORDUnitPrice()}</td><td>${orders[i].getORDTotal()}</td></tr>`;
-            $("#orderTable").append(row);
-        }
-    }
+
 
 </script>
 
