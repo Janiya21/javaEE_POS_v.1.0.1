@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="e62d599f-3d84-438b-88e2-a4cf6e90dba4" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/mypos.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/javax_json_api_1_1_4.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/mysql_connector_java_8_0_11.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/JavaEE_POS_v.1.0.1.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/DBCP/commons-dbcp2-2.9.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/DBCP/commons-logging-1.2.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/DBCP/commons-pool2-2.11.1.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/javax.json-1.1.4.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/javax.json-api-1.1.4.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/mysql-connector-java-8.0.11.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/mypos/mypos.war" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaEE_POS_v.1.0.1/bo/BOFactory$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaEE_POS_v.1.0.1/bo/BOFactory$BOType.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaEE_POS_v.1.0.1/bo/BOFactory.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaEE_POS_v.1.0.1/bo/SuperBO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaEE_POS_v.1.0.1/bo/custom/CustomerBO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaEE_POS_v.1.0.1/bo/custom/ItemBO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaEE_POS_v.1.0.1/bo/custom/impl/CustomerBOImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaEE_POS_v.1.0.1/bo/custom/impl/ItemBOImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaEE_POS_v.1.0.1/controller/CustomerServlet.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaEE_POS_v.1.0.1/controller/ItemServlet.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaEE_POS_v.1.0.1/dao/DAOFactory$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaEE_POS_v.1.0.1/dao/DAOFactory$DAOType.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaEE_POS_v.1.0.1/dao/DAOFactory.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaEE_POS_v.1.0.1/dao/SuperDAO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaEE_POS_v.1.0.1/dao/custom/CustomerDAO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaEE_POS_v.1.0.1/dao/custom/ItemDAO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaEE_POS_v.1.0.1/dao/custom/impl/CustomerDAOImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaEE_POS_v.1.0.1/dao/custom/impl/ItemDAOImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaEE_POS_v.1.0.1/dto/CustomerDTO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaEE_POS_v.1.0.1/dto/ItemDTO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaEE_POS_v.1.0.1/entity/Customer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaEE_POS_v.1.0.1/entity/Item.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/bo/BOFactory.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/bo/SuperBO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/bo/custom/CustomerBO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/bo/custom/ItemBO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/bo/custom/impl/CustomerBOImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/bo/custom/impl/ItemBOImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/CustomerServlet.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/ItemServlet.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dao/DAOFactory.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dao/SuperDAO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dao/custom/CustomerDAO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dao/custom/ItemDAO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dao/custom/impl/CustomerDAOImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dao/custom/impl/ItemDAOImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dto/CustomerDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dto/ItemDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entity/Customer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entity/Item.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/META-INF/context.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/WEB-INF/web.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/alter-projects/Assignments/assignment_01.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/alter-projects/Assignments/assignment_02.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/alter-projects/Tasks/task_01.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/alter-projects/bootstrapPOS_UIs/index1.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/alter-projects/bootstrapPOS_UIs/index2.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/alter-projects/bootstrapPOS_UIs/index3.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/alter-projects/taskView.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/assets/bootstrap/css/bootstrap-grid.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/assets/bootstrap/css/bootstrap-grid.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/assets/bootstrap/css/bootstrap-grid.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/assets/bootstrap/css/bootstrap-grid.min.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/assets/bootstrap/css/bootstrap-grid.rtl.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/assets/bootstrap/css/bootstrap-grid.rtl.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/assets/bootstrap/css/bootstrap-grid.rtl.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/assets/bootstrap/css/bootstrap-grid.rtl.min.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/assets/bootstrap/css/bootstrap-reboot.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/assets/bootstrap/css/bootstrap-reboot.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/assets/bootstrap/css/bootstrap-reboot.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/assets/bootstrap/css/bootstrap-reboot.min.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/assets/bootstrap/css/bootstrap-reboot.rtl.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/assets/bootstrap/css/bootstrap-reboot.rtl.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/assets/bootstrap/css/bootstrap-reboot.rtl.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/assets/bootstrap/css/bootstrap-reboot.rtl.min.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/assets/bootstrap/css/bootstrap-utilities.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/assets/bootstrap/css/bootstrap-utilities.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/assets/bootstrap/css/bootstrap-utilities.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/assets/bootstrap/css/bootstrap-utilities.min.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/assets/bootstrap/css/bootstrap-utilities.rtl.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/assets/bootstrap/css/bootstrap-utilities.rtl.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/assets/bootstrap/css/bootstrap-utilities.rtl.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/assets/bootstrap/css/bootstrap-utilities.rtl.min.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/assets/bootstrap/css/bootstrap.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/assets/bootstrap/css/bootstrap.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/assets/bootstrap/css/bootstrap.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/assets/bootstrap/css/bootstrap.min.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/assets/bootstrap/css/bootstrap.rtl.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/assets/bootstrap/css/bootstrap.rtl.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/assets/bootstrap/css/bootstrap.rtl.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/assets/bootstrap/css/bootstrap.rtl.min.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/assets/bootstrap/js/bootstrap.bundle.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/assets/bootstrap/js/bootstrap.bundle.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/assets/bootstrap/js/bootstrap.bundle.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/assets/bootstrap/js/bootstrap.bundle.min.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/assets/bootstrap/js/bootstrap.esm.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/assets/bootstrap/js/bootstrap.esm.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/assets/bootstrap/js/bootstrap.esm.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/assets/bootstrap/js/bootstrap.esm.min.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/assets/bootstrap/js/bootstrap.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/assets/bootstrap/js/bootstrap.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/assets/bootstrap/js/bootstrap.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/assets/bootstrap/js/bootstrap.min.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/assets/css/homePage.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/assets/css/styles.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/assets/css/styles2.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/assets/css/styles3.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/assets/img/20000.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/assets/img/4600.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/assets/img/6500.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/assets/img/Food-Safety.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/assets/img/Produce.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/assets/img/ProduceX.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/assets/img/arrow.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/assets/img/as01.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/assets/img/as02.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/assets/img/cc.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/assets/img/dil.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/assets/img/dil2.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/assets/img/dis2.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/assets/img/food1.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/assets/img/food2.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/assets/img/image1.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/assets/img/image2.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/assets/img/image3.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/assets/img/pasta15_b291.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/assets/img/pg2.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/assets/img/preview.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/assets/img/rb.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/assets/img/saf.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/assets/img/safe1.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/assets/img/st1.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/assets/img/store1.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/assets/img/task01.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/assets/jQuery/jquery-3.6.0.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/index.html" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="29HMjUhEA1ihVWQ9n5XHJv1qag3" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.13736266" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\JANITH\Desktop\Desktop All Here\Java All\Web_BackEnd\src" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="e62d599f-3d84-438b-88e2-a4cf6e90dba4" name="Default Changelist" comment="" />
+      <created>1652765694397</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1652765694397</updated>
+      <workItem from="1652765698686" duration="431000" />
+      <workItem from="1652766173477" duration="271000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
