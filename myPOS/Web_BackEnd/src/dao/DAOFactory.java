@@ -6,6 +6,7 @@ import bo.custom.impl.CustomerBOImpl;
 import bo.custom.impl.ItemBOImpl;
 import dao.custom.impl.CustomerDAOImpl;
 import dao.custom.impl.ItemDAOImpl;
+import dao.custom.impl.OrderDAOImpl;
 
 public class DAOFactory {
     private static DAOFactory daoFactory;
@@ -17,7 +18,7 @@ public class DAOFactory {
     }
 
     public enum DAOType{
-        CUSTOMER,ITEM
+        CUSTOMER,ITEM,ORDER
     }
 
     public SuperDAO getDAO(DAOFactory.DAOType daoType){
@@ -26,6 +27,8 @@ public class DAOFactory {
                 return new CustomerDAOImpl();
             case ITEM:
                 return new ItemDAOImpl();
+            case ORDER:
+                return new OrderDAOImpl();
             default:
                 return null;
         }

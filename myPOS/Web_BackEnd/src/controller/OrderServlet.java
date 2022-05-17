@@ -1,5 +1,69 @@
 package controller;
 
-public class OrderServlet  {
+import bo.BOFactory;
+import bo.custom.impl.CustomerBOImpl;
+import bo.custom.impl.OrderBOImpl;
+import dto.CustomerDTO;
+import dto.OrderDTO;
 
+import javax.annotation.Resource;
+import javax.json.Json;
+import javax.json.JsonObjectBuilder;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.sql.DataSource;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.SQLException;
+
+@WebServlet(urlPatterns = "/order")
+public class OrderServlet  extends HttpServlet {
+
+    @Resource(name = "java:comp/env/jdbc/pool")
+    public static DataSource dataSource;
+
+    OrderBOImpl orderBO = (OrderBOImpl) BOFactory.getInstance().getBO(BOFactory.BOType.ORDER);
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String customerId = req.getParameter("customerId");
+        String customerName = req.getParameter("customerName");
+        String customerEmail = req.getParameter("customerEmail");
+        String customerTelNo = req.getParameter("customerTelNo");
+
+        OrderDTO orderDTO = new OrderDTO();
+
+        PrintWriter writer = resp.getWriter();
+
+        resp.setContentType("application/json");
+        resp.setStatus(HttpServletResponse.SC_CREATED);
+
+        JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
+
+        try {
+            boolean added = orderBO.addOrder(orderDTO);
+
+            if(added){
+                objectBuilder.add("status", 200);
+                objectBuilder.add("message", "Successfully Added");
+            }else{
+                objectBuilder.add("status", 400);
+                objectBuilder.add("message", "Added Not Successful !!");
+            }
+            objectBuilder.add("data", "");
+            writer.print(objectBuilder.build());
+
+        } catch (SQLException throwables) {
+            JsonObjectBuilder response = Json.createObjectBuilder();
+            objectBuilder.add("status", 500);
+            objectBuilder.add("message", "Error");
+            objectBuilder.add("data", throwables.getLocalizedMessage());
+            writer.print(objectBuilder.build());
+            resp.setStatus(HttpServletResponse.SC_OK);
+            throwables.printStackTrace();
+        }
+    }
 }

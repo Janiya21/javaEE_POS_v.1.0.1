@@ -1,5 +1,10 @@
 package dao.custom;
 
-public interface OrderDAO {
-    public boolean addOrder();
+import dao.SuperDAO;
+import entity.Orders;
+
+import java.sql.SQLException;
+
+public interface OrderDAO extends SuperDAO {
+    public boolean addOrder(Orders order) throws SQLException;
 }
