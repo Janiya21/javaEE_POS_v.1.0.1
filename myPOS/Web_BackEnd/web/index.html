@@ -844,6 +844,10 @@
         calculateTot();
     });
 
+    $("#txtDiscount").keyup(function(){
+        setTotal();
+    });
+
     $("#btnCreateBill").click(function (){
         createBill();
     });
@@ -930,6 +934,15 @@
         $("#txtPureTot").val(tot);
     }
 
+    function setTotal(){
+        let pureTot = $("#txtPureTot").val();
+        let discount = $("#txtDiscount").val();
+
+        let totBil = pureTot - (pureTot * discount)/100;
+        console.log(totBil + " rs");
+        $("#txtTotBil").val(totBil + " /=");
+    }
+
     function createBill(){
 
         loadToOrderTable();
@@ -966,13 +979,15 @@
         let discount = ( (price * qty) * disPers)/100;
         let pureTot = (price * qty) - discount;
 
-        let orderOB = {
-            orderId: orders[0].getORDOrderId(),
-            cusId: orders[0].getORDCustomerId(),
-            date: new Date().toISOString().slice(0, 10),
+        var orderOB  = {
+            "orderId": orders[0].getORDOrderId(),
+            "cusId": orders[0].getORDCustomerId(),
+            "date": "2021-10-09",
             dis: discount,
             total: pureTot
         }
+
+        console.log(orderOB.orderId, orderOB.cusId, orderOB.date, orderOB.dis, orderOB.total)
 
         $.ajax({
             url: "order",
@@ -996,7 +1011,44 @@
     }
 
     function loadToOrderDetails(){
+        for (let i = 0; i < orders.length; i++) {
+            let orderID = orders[i].getORDOrderId();
+            let itemCode = orders[i].getORDItemId();
+            let qty = orders[i].getORDUnits();
+            let unitPrice = orders[i].getORDUnitPrice();
+            let tot = orders[i].getORDTotal();
 
+            console.log(orderID,itemCode,qty,unitPrice,tot);
+
+            let orderDetailOB = {
+                "orderId": orderID,
+                "itemCode": itemCode,
+                "quantity":qty,
+                "uPrice":unitPrice,
+                "total":tot
+            }
+
+            console.log(orderDetailOB.orderId, orderDetailOB.itemCode, orderDetailOB.quantity, orderDetailOB.uPrice, orderDetailOB.total + " fukk")
+
+            $.ajax({
+                url: "placedorders",
+                method: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(orderDetailOB),
+                success: function (res) {
+                    if (res.status === 200) {
+                        alert(res.message);
+                    } else if (res.status === 400) {
+                        alert(res.message);
+                    } else {
+                        alert(res.data);
+                    }
+                },
+                error: function (ob, errorStus) {
+                    console.log(ob);
+                }
+            });
+        }
     }
 
 </script>

@@ -32,21 +32,22 @@ public class OrderServlet  extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
         JsonReader reader = Json.createReader(req.getReader());
         JsonObject jsonObject = reader.readObject();
 
         String orderId = jsonObject.getString("orderId");
         String cusId = jsonObject.getString("cusId");
         String date = jsonObject.getString("date");
-        String dis = jsonObject.getString("dis");
-        String total = jsonObject.getString("total");
+        int dis = jsonObject.getInt("dis");
+        int total = jsonObject.getInt("total");
 
-        OrderDTO orderDTO = new OrderDTO(orderId,cusId, Date.valueOf(date),Double.parseDouble(dis),Double.parseDouble(total));
+        OrderDTO orderDTO = new OrderDTO(orderId,cusId, Date.valueOf(date),Double.parseDouble(String.valueOf(dis)),Double.parseDouble(String.valueOf(total)));
 
         PrintWriter writer = resp.getWriter();
 
         resp.setContentType("application/json");
-        resp.setStatus(HttpServletResponse.SC_CREATED);
+        resp.setStatus(200);
 
         JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
 
@@ -65,11 +66,10 @@ public class OrderServlet  extends HttpServlet {
 
         } catch (SQLException throwables) {
             JsonObjectBuilder response = Json.createObjectBuilder();
-            objectBuilder.add("status", 500);
-            objectBuilder.add("message", "Error");
-            objectBuilder.add("data", throwables.getLocalizedMessage());
-            writer.print(objectBuilder.build());
-            resp.setStatus(HttpServletResponse.SC_OK);
+            response.add("status", 500);
+            response.add("message", "Error");
+            response.add("data", throwables.getLocalizedMessage());
+            writer.print(response.build());
             throwables.printStackTrace();
         }
     }
