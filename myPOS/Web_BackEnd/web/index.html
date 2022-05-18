@@ -841,6 +841,11 @@
 
     $("#btnAddToCart").click(function (){
         addOrderToTable();
+        calculateTot();
+    });
+
+    $("#btnCreateBill").click(function (){
+        createBill();
     });
 
     function addOrderToTable(){
@@ -915,6 +920,83 @@
                     <td>${orders[i].getORDUnitPrice()}</td><td>${orders[i].getORDTotal()}</td></tr>`;
             $("#orderTable").append(row);
         }
+    }
+
+    function calculateTot(){
+        let tot=0;
+        for (const i in orders) {
+            tot+=orders[i].getORDTotal();
+        }
+        $("#txtPureTot").val(tot);
+    }
+
+    function createBill(){
+
+        loadToOrderTable();
+        loadToOrderDetails();
+
+        let isExecuted = confirm("Are you sure to confirm this order?");
+        if(isExecuted){
+            $("#itemName").val(null);
+            $("#unitPrice").val(null);
+            $("#orderQty").val(null);
+            $("#itemQty").val(null);
+            $("#customName").val(null);
+            $("#customAddress").val(null);
+            $("#customTelNo").val(null);
+            $("#txtPureTot").val(null);
+            $("#txtDiscount").val(null);
+            $("#txtTotBil").val(null);
+
+            orders = [];
+            $("#orderTable>tbody tr").remove();
+        }
+    }
+
+    function loadToOrderTable() {
+        let disPers = $("#txtDiscount").val();
+        const price = $("#unitPrice").val();
+        const qty = $("#orderQty").val();
+
+        /*let orderID = orders[0].getORDOrderId();
+        let cusID = orders[0].getORDCustomerId();
+        let today = new Date().toISOString().slice(0, 10);
+        let tot = price * qty;*/
+
+        let discount = ( (price * qty) * disPers)/100;
+        let pureTot = (price * qty) - discount;
+
+        let orderOB = {
+            orderId: orders[0].getORDOrderId(),
+            cusId: orders[0].getORDCustomerId(),
+            date: new Date().toISOString().slice(0, 10),
+            dis: discount,
+            total: pureTot
+        }
+
+        $.ajax({
+            url: "order",
+            method: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(orderOB),
+            success: function (res) {
+                if (res.status === 200) {
+                    alert(res.message);
+                } else if (res.status === 400) {
+                    alert(res.message);
+                } else {
+                    alert(res.data);
+                }
+            },
+            error: function (ob, errorStus) {
+                console.log(ob);
+            }
+        });
+
+    }
+
+    function loadToOrderDetails(){
+
     }
 
 </script>

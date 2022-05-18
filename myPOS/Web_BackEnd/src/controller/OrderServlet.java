@@ -8,7 +8,9 @@ import dto.OrderDTO;
 
 import javax.annotation.Resource;
 import javax.json.Json;
+import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
+import javax.json.JsonReader;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Date;
 import java.sql.SQLException;
 
 @WebServlet(urlPatterns = "/order")
@@ -29,12 +32,16 @@ public class OrderServlet  extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String customerId = req.getParameter("customerId");
-        String customerName = req.getParameter("customerName");
-        String customerEmail = req.getParameter("customerEmail");
-        String customerTelNo = req.getParameter("customerTelNo");
+        JsonReader reader = Json.createReader(req.getReader());
+        JsonObject jsonObject = reader.readObject();
 
-        OrderDTO orderDTO = new OrderDTO();
+        String orderId = jsonObject.getString("orderId");
+        String cusId = jsonObject.getString("cusId");
+        String date = jsonObject.getString("date");
+        String dis = jsonObject.getString("dis");
+        String total = jsonObject.getString("total");
+
+        OrderDTO orderDTO = new OrderDTO(orderId,cusId, Date.valueOf(date),Double.parseDouble(dis),Double.parseDouble(total));
 
         PrintWriter writer = resp.getWriter();
 
