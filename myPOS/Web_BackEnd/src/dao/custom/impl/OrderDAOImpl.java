@@ -3,12 +3,16 @@ package dao.custom.impl;
 import controller.CustomerServlet;
 import controller.OrderServlet;
 import dao.custom.OrderDAO;
+import entity.Customer;
 import entity.Orders;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class OrderDAOImpl implements OrderDAO {
 
@@ -43,5 +47,28 @@ public class OrderDAOImpl implements OrderDAO {
         connection.close();
 
         return string;
+    }
+
+    @Override
+    public List<Orders> getAllOrders() throws SQLException {
+        Connection connection = CustomerServlet.dataSource.getConnection();
+        ResultSet rst = connection.prepareStatement("select * from Orders").executeQuery();
+
+        List<Orders> ordersList = new ArrayList<>();
+
+        while(rst.next()){
+            String id = rst.getString(1);
+            String name = rst.getString(2);
+            Date email = rst.getDate(3);
+            double dis = rst.getDouble(4);
+            double total = rst.getDouble(5);
+
+            Orders orders = new Orders(id, name, email, dis, total);
+            ordersList.add(orders);
+        }
+
+        connection.close();
+
+        return ordersList;
     }
 }

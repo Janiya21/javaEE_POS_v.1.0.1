@@ -7,10 +7,7 @@ import dto.CustomerDTO;
 import dto.OrderDTO;
 
 import javax.annotation.Resource;
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
-import javax.json.JsonReader;
+import javax.json.*;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -21,6 +18,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.util.List;
 
 @WebServlet(urlPatterns = "/order")
 public class OrderServlet  extends HttpServlet {
@@ -76,20 +74,60 @@ public class OrderServlet  extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String option = req.getParameter("option");
         PrintWriter writer = resp.getWriter();
 
         resp.setContentType("application/json");
         resp.setStatus(200);
 
-        try {
-            String lastID = orderBO.getLastID();
 
-            JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
-            objectBuilder.add("lastId",lastID);
-            writer.print(objectBuilder.build());
+        switch (option){
+            case "GETID":
+                try {
+                    String lastID = orderBO.getLastID();
 
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+                    JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
+                    objectBuilder.add("lastId",lastID);
+                    writer.print(objectBuilder.build());
+
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+                break;
+            case "GETALL":
+                try {
+
+                    JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
+
+                    List<OrderDTO> allOrders = orderBO.getAllOrders();
+
+                    for (OrderDTO ac : allOrders) {
+                        JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
+
+                        objectBuilder.add("id", ac.getOrderID());
+                        objectBuilder.add("name", ac.getCustomerID());
+                        objectBuilder.add("date", String.valueOf(ac.getDate()));
+                        objectBuilder.add("discount", ac.getDiscount());
+                        objectBuilder.add("total", ac.getTotal());
+
+                        arrayBuilder.add(objectBuilder.build());
+                    }
+
+                    JsonObjectBuilder response = Json.createObjectBuilder();
+                    response.add("status", 200);
+                    response.add("message", "Done");
+                    response.add("data", arrayBuilder.build());
+                    writer.print(response.build());
+
+                } catch (SQLException throwables) {
+                    JsonObjectBuilder response = Json.createObjectBuilder();
+                    response.add("status", 400);
+                    response.add("message", "Error");
+                    response.add("data", throwables.getLocalizedMessage());
+                    writer.print(response.build());
+                    throwables.printStackTrace();
+                }
+                break;
         }
     }
 }
