@@ -8,4 +8,5 @@ import java.sql.SQLException;
 
 public interface OrderBO extends SuperBO {
     public boolean addOrder(OrderDTO orderDTO) throws SQLException;
+    public String getLastID() throws SQLException;
 }

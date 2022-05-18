@@ -7,6 +7,7 @@ import entity.Orders;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class OrderDAOImpl implements OrderDAO {
@@ -27,5 +28,20 @@ public class OrderDAOImpl implements OrderDAO {
         System.out.println("order eka database ekata avoo");
 
         return executeUpdate > 0;
+    }
+
+    @Override
+    public String getLastID() throws SQLException {
+        Connection connection = OrderServlet.dataSource.getConnection();
+        ResultSet resultSet = connection.prepareStatement("SELECT OrderID FROM Orders ORDER BY OrderID DESC LIMIT 1").executeQuery();
+
+        String string=null;
+
+        if (resultSet.next()) {
+            string = resultSet.getString(1);
+        }
+        connection.close();
+
+        return string;
     }
 }

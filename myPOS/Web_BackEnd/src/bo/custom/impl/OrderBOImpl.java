@@ -19,4 +19,9 @@ public class OrderBOImpl implements OrderBO {
         Orders orders = new Orders(orderDTO.getOrderID(),orderDTO.getCustomerID(),orderDTO.getDate(),orderDTO.getDiscount(),orderDTO.getTotal());
         return orderDAO.addOrder(orders);
     }
+
+    @Override
+    public String getLastID() throws SQLException {
+        return orderDAO.getLastID();
+    }
 }

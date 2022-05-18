@@ -860,61 +860,93 @@
         const customerId = $("#customerID-selector").val();
 
         const tot = price * qty;
+        let nextId;
 
-        let orderID="O-0001";
+        function getLastID(){
+            return $.ajax({
+                url: "order",
+                method: "GET",
+                contentType: "application/json",
+            });
+        }
 
-        let orderArray = new OrderDTO(orderID,customerId,id,name,qty,price,tot);
+        getLastID().then( res => {
+            let lst = res.lastId;
+            console.log("last " + lst);
 
-        console.log(orderArray);
+            if(lst === null){
+                nextId= "O-0001";
+            }else{
+                let number = Number(lst.substr(2,6));
+                let nextNum = number + 1;
 
-        if(id !== '' && qty !=='' &&  customerId !== ''){
-
-            let orQty = $("#itemQty").val();
-
-            console.log(qty + " < > = " + orQty);
-
-            if( Number(qty) < Number(orQty) ){
-
-                let isExists=false;
-                let index;
-                let oldQty;
-                let oldTot;
-
-                if(orders.length === 0){
-                    isExists = false;
+                if(nextNum<10){
+                    nextId = "O-000"+nextNum;
+                }else if(nextNum<100){
+                    nextId = "O-00"+nextNum;
+                }else if(nextNum<1000){
+                    nextId = "O-0"+nextNum;
                 }else{
-                    for (const i in orders) {
-                        if(orders[i].getORDItemId() === id){
-                            isExists = true;
-                            index=i;
-                            oldQty=orders[i].getORDUnits();
-                            oldTot=orders[i].getORDTotal();
+                    nextId = "O-1000";
+                }
+            }
+            console.log(nextId + " this is next")
+
+            console.log("leee " + nextId);
+
+            let orderArray = new OrderDTO(nextId,customerId,id,name,qty,price,tot);
+
+            console.log(orderArray);
+
+            if(id !== '' && qty !=='' &&  customerId !== ''){
+
+                let orQty = $("#itemQty").val();
+
+                console.log(qty + " < > = " + orQty);
+
+                if( Number(qty) < Number(orQty) ){
+
+                    let isExists=false;
+                    let index;
+                    let oldQty;
+                    let oldTot;
+
+                    if(orders.length === 0){
+                        isExists = false;
+                    }else{
+                        for (const i in orders) {
+                            if(orders[i].getORDItemId() === id){
+                                isExists = true;
+                                index=i;
+                                oldQty=orders[i].getORDUnits();
+                                oldTot=orders[i].getORDTotal();
+                            }
                         }
                     }
-                }
 
-                if(isExists){
-                    orders[index].setORDUnits(Number(oldQty) + Number(qty));
-                    orders[index].setORDTotal(Number(tot) + Number(oldTot));
+                    if(isExists){
+                        orders[index].setORDUnits(Number(oldQty) + Number(qty));
+                        orders[index].setORDTotal(Number(tot) + Number(oldTot));
 
-                    loadAllItemsToOrderTable();
+                        loadAllItemsToOrderTable();
 
-                }else{
-                    orders.push(orderArray);
+                    }else{
+                        orders.push(orderArray);
 
-                    let i = orders.length-1;
+                        let i = orders.length-1;
 
-                    let row = `<tr><td>${orders[i].getORDItemId()}</td><td>${orders[i].getORDItemName()}</td><td>${orders[i].getORDUnits()}</td>
+                        let row = `<tr><td>${orders[i].getORDItemId()}</td><td>${orders[i].getORDItemName()}</td><td>${orders[i].getORDUnits()}</td>
                             <td>${orders[i].getORDUnitPrice()}</td><td>${orders[i].getORDTotal()}</td></tr>`;
-                    $("#orderTable").append(row);
+                        $("#orderTable").append(row);
+                    }
+                }else{
+                    alert("Quantity not sufficient !!")
                 }
-            }else{
-                alert("Quantity not sufficient !!")
-            }
 
-        }else{
-            alert("Please check all inputs in item form");
-        }
+            }else{
+                alert("Please check all inputs in item form");
+            }
+        });
     }
 
     function loadAllItemsToOrderTable(){
@@ -995,13 +1027,7 @@
             contentType: "application/json",
             data: JSON.stringify(orderOB),
             success: function (res) {
-                if (res.status === 200) {
-                    alert(res.message);
-                } else if (res.status === 400) {
-                    alert(res.message);
-                } else {
-                    alert(res.data);
-                }
+
             },
             error: function (ob, errorStus) {
                 console.log(ob);
@@ -1036,13 +1062,7 @@
                 contentType: "application/json",
                 data: JSON.stringify(orderDetailOB),
                 success: function (res) {
-                    if (res.status === 200) {
-                        alert(res.message);
-                    } else if (res.status === 400) {
-                        alert(res.message);
-                    } else {
-                        alert(res.data);
-                    }
+
                 },
                 error: function (ob, errorStus) {
                     console.log(ob);

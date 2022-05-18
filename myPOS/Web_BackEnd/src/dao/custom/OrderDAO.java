@@ -7,4 +7,5 @@ import java.sql.SQLException;
 
 public interface OrderDAO extends SuperDAO {
     public boolean addOrder(Orders order) throws SQLException;
+    public String getLastID() throws SQLException;
 }

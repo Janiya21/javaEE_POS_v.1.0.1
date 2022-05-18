@@ -73,4 +73,23 @@ public class OrderServlet  extends HttpServlet {
             throwables.printStackTrace();
         }
     }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        PrintWriter writer = resp.getWriter();
+
+        resp.setContentType("application/json");
+        resp.setStatus(200);
+
+        try {
+            String lastID = orderBO.getLastID();
+
+            JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
+            objectBuilder.add("lastId",lastID);
+            writer.print(objectBuilder.build());
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
 }
