@@ -841,7 +841,6 @@
 
     $("#btnAddToCart").click(function (){
         addOrderToTable();
-        calculateTot();
     });
 
     $("#txtDiscount").keyup(function(){
@@ -946,6 +945,13 @@
             }else{
                 alert("Please check all inputs in item form");
             }
+
+            let allTot=0;
+            for (const i in orders) {
+                allTot+=orders[i].getORDTotal();
+            }
+            $("#txtPureTot").val(tot);
+
         });
     }
 
@@ -959,11 +965,7 @@
     }
 
     function calculateTot(){
-        let tot=0;
-        for (const i in orders) {
-            tot+=orders[i].getORDTotal();
-        }
-        $("#txtPureTot").val(tot);
+
     }
 
     function setTotal(){
@@ -1027,7 +1029,13 @@
             contentType: "application/json",
             data: JSON.stringify(orderOB),
             success: function (res) {
-
+                if (res.status === 200) {
+                    alert(res.message);
+                } else if (res.status === 400) {
+                    alert(res.message);
+                } else {
+                    alert(res.data);
+                }
             },
             error: function (ob, errorStus) {
                 console.log(ob);
