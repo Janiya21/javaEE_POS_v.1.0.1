@@ -3,10 +3,10 @@ javaEE + TomCat with JSON
 
 <b><h3>The basic POS Web Application</h3><b>
 
- Front-End : html, css, bootstrap, js
+ Front-End : html, css, bootstrap, js <br><br>
  Back-End  : JavaEE, JSON, MySQL, TomCat WC 
 
-  site :
+  <h2>site :<h2>
   
 <br> 
  
