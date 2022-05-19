@@ -644,6 +644,45 @@
         $("#txtUnitPrice").val(uniPrice);
     }
 
+    /*$("#btnGenerateItemId").click(function (){
+        generateItemID();
+    });
+
+    function generateItemID(){
+        function getLastID(){
+            return $.ajax({
+                url: "http://localhost:8081/mypos/item?option=GETID",
+                method: "GET",
+                contentType: "application/json",
+            });
+        }
+
+        let nextId;
+
+        getLastID().then( res => {
+            let lst = res.lastId;
+            console.log("last " + lst);
+
+            if (lst === null) {
+                nextId = "O-0001";
+            } else {
+                let number = Number(lst.substr(2, 6));
+                let nextNum = number + 1;
+
+                if (nextNum < 10) {
+                    nextId = "O-000" + nextNum;
+                } else if (nextNum < 100) {
+                    nextId = "O-00" + nextNum;
+                } else if (nextNum < 1000) {
+                    nextId = "O-0" + nextNum;
+                } else {
+                    nextId = "O-1000";
+                }
+            }
+        });
+        $("#txtItemCode").val(nextId);
+    }*/
+
     $("#item-body>tr").click(function (){
         loadItemsToTextFields(this);
     });
