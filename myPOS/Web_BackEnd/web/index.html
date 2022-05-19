@@ -888,9 +888,7 @@
                     nextId = "O-1000";
                 }
             }
-            console.log(nextId + " this is next")
-
-            console.log("leee " + nextId);
+            console.log(nextId + " this is next");
 
             let orderArray = new OrderDTO(nextId,customerId,id,name,qty,price,tot);
 
@@ -949,7 +947,7 @@
             for (const i in orders) {
                 allTot+=orders[i].getORDTotal();
             }
-            $("#txtPureTot").val(tot);
+            $("#txtPureTot").val(allTot);
 
         });
     }
@@ -963,17 +961,13 @@
         }
     }
 
-    function calculateTot(){
-
-    }
-
     function setTotal(){
         let pureTot = $("#txtPureTot").val();
         let discount = $("#txtDiscount").val();
 
         let totBil = pureTot - (pureTot * discount)/100;
         console.log(totBil + " rs");
-        $("#txtTotBil").val(totBil + " /=");
+        $("#txtTotBil").val(totBil);
     }
 
     function createBill(){
@@ -1000,17 +994,14 @@
     }
 
     function loadToOrderTable() {
-        let disPers = $("#txtDiscount").val();
-        const price = $("#unitPrice").val();
-        const qty = $("#orderQty").val();
 
-        /*let orderID = orders[0].getORDOrderId();
-        let cusID = orders[0].getORDCustomerId();
-        let today = new Date().toISOString().slice(0, 10);
-        let tot = price * qty;*/
+        let totAmount = Number($("#txtTotBil").val());
+        let pureTot = Number($("#txtPureTot").val());
 
-        let discount = ( (price * qty) * disPers)/100;
-        let pureTot = (price * qty) - discount;
+        console.log(" tot $ " + totAmount, pureTot);
+        let discount = pureTot - totAmount;
+
+        console.log(discount + " O " + pureTot);
 
         var orderOB  = {
             "orderId": orders[0].getORDOrderId(),
