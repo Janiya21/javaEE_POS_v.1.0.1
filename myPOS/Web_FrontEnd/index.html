@@ -438,7 +438,6 @@
                             <thead class="bg-dark text-white">
                             <tr>
                                 <th>Item Code</th>
-                                <th>Name</th>
                                 <th>Qty</th>
                                 <th>Unit Price</th>
                                 <th>Total Amount</th>
@@ -462,6 +461,8 @@
 <script src="assets/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="assets/jQuery/jquery-3.6.0.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+<script src="model/OrderDTO.js"></script>
+<script src="Temp/TempArrays.js"></script>
 
 <script>
     $("#register").click(function (){
@@ -507,24 +508,6 @@
         $("#txtTelNo").val(null);
     });
 
-    /*function bindClickEvents() {
-        $("##customer-body>tr").click(function () {
-            //Get values from the selected row
-            let id = $(this).children().eq(0).text();
-            let name = $(this).children().eq(1).text();
-            let address = $(this).children().eq(2).text();
-            let salary = $(this).children().eq(3).text();
-
-            console.log(id,name,address,salary + " oooooo ");
-
-            //Set values to the text-fields
-            $("#txtCustomerId").val(id);
-            $("#txtCustomerName").val(name);
-            $("#txtEmail").val(address);
-            $("#txtTelNo").val(salary);
-        });
-    }*/
-
     function loadCustomersToTextFields(row){
         let cusID = $(row).children(":eq(0)").text();
         let cusName = $(row).children(":eq(1)").text();
@@ -551,7 +534,7 @@
     function loadAllCustomers() {
         $("#customer-body").empty();
         $.ajax({
-            url: "customer",
+            url: "http://localhost:8081/mypos/customer?option=GETALL",
             method: "GET",
             success: function (resp) {
                 for (const customer of resp.data) {
@@ -570,7 +553,7 @@
 
         let data = $("#customerForm").serialize();
         $.ajax({
-            url: "customer",
+            url: "http://localhost:8081/mypos/customer",
             method: "POST",
             data:data,
             success:function (res){
@@ -588,7 +571,7 @@
         let customerID = $("#txtCustomerId").val();
 
         $.ajax({
-            url:"customer?CusID="+customerID,
+            url:"http://localhost:8081/mypos/customer?CusID="+customerID,
             method: "DELETE",
             success:function (res){
                 console.log(res);
@@ -618,7 +601,7 @@
         }
 
         $.ajax({
-            url: "customer",
+            url: "http://localhost:8081/mypos/customer",
             method: "PUT",
             contentType: "application/json",
             data: JSON.stringify(cusOb), // format js object to valid json string
@@ -647,24 +630,6 @@
         $("#txtUnitPrice").val(null);
     });
 
-    /*function bindClickEvents() {
-        $("##customer-body>tr").click(function () {
-            //Get values from the selected row
-            let id = $(this).children().eq(0).text();
-            let name = $(this).children().eq(1).text();
-            let address = $(this).children().eq(2).text();
-            let salary = $(this).children().eq(3).text();
-
-            console.log(id,name,address,salary + " oooooo ");
-
-            //Set values to the text-fields
-            $("#txtCustomerId").val(id);
-            $("#txtCustomerName").val(name);
-            $("#txtEmail").val(address);
-            $("#txtTelNo").val(salary);
-        });
-    }*/
-
     function loadItemsToTextFields(row){
         let itemID = $(row).children(":eq(0)").text();
         let itemName = $(row).children(":eq(1)").text();
@@ -690,7 +655,7 @@
     function loadAllItems() {
         $("#item-body").empty();
         $.ajax({
-            url: "item",
+            url: "http://localhost:8081/mypos/item?option=GETALL",
             method: "GET",
             success: function (resp) {
                 for (const item of resp.data) {
@@ -709,7 +674,7 @@
 
         let data = $("#itemForm").serialize();
         $.ajax({
-            url: "item",
+            url: "http://localhost:8081/mypos/item",
             method: "POST",
             data:data,
             success:function (res){
@@ -727,7 +692,7 @@
         let itemCode = $("#txtItemCode").val();
 
         $.ajax({
-            url:"item?itemID="+itemCode,
+            url:"http://localhost:8081/mypos/item?itemID="+itemCode,
             method: "DELETE",
             success:function (res){
                 console.log(res);
@@ -757,7 +722,7 @@
         }
 
         $.ajax({
-            url: "item",
+            url: "http://localhost:8081/mypos/item",
             method: "PUT",
             contentType: "application/json",
             data: JSON.stringify(itemOb), // format js object to valid json string
@@ -776,6 +741,328 @@
             }
         });
     });
+
+    /*=================== Order Config =======================*/
+
+    $("#placeOrder").click(function (){
+        $("#customerID-selector").empty();
+        $.ajax({
+            url: "http://localhost:8081/mypos/customer?option=GETIDS",
+            method: "GET",
+            success: function (resp) {
+                for (const customer of resp.data) {
+                    let row = `<option value="${customer.id}">${customer.id}</option>`;
+                    $("#customerID-selector").append(row);
+                }
+            }
+        });
+
+        $("#itemID-selector").empty();
+        $.ajax({
+            url: "http://localhost:8081/mypos/item?option=GETIDS",
+            method: "GET",
+            success: function (resp) {
+                for (const item of resp.data) {
+                    let row = `<option value="${item.code}">${item.code}</option>`;
+                    $("#itemID-selector").append(row);
+                }
+            }
+        });
+    });
+
+    $("#customerID-selector").click(function (){
+        var customerID = $("#customerID-selector").val();
+        console.log(customerID + " this is ID");
+
+        $.ajax({
+            url: "http://localhost:8081/mypos/customer?option=GETCUSTOMER&id="+customerID,
+            method: "GET",
+            success: function (resp) {
+                console.log(resp.data.id + " ado " + resp.data.name + "  ,  " + resp.data.email);
+                $("#customName").val(resp.data.name);
+                $("#customAddress").val(resp.data.email);
+                $("#customTelNo").val(resp.data.telNo);
+            }
+        });
+    });
+
+    $("#itemID-selector").click(function (){
+        var itemID = $("#itemID-selector").val();
+        console.log(itemID + " this is ID");
+
+        $.ajax({
+            url: "http://localhost:8081/mypos/item?option=GETITEM&code="+itemID,
+            method: "GET",
+            success: function (resp) {
+                console.log(resp.data.id + " ado " + resp.data.name + "  ,  " + resp.data.price);
+                $("#itemName").val(resp.data.name);
+                $("#unitPrice").val(resp.data.price);
+                $("#itemQty").val(resp.data.qty);
+            }
+        });
+    });
+
+    $("#btnAddToCart").click(function (){
+        addOrderToTable();
+    });
+
+    $("#txtDiscount").keyup(function(){
+        setTotal();
+    });
+
+    $("#btnCreateBill").click(function (){
+        createBill();
+    });
+
+    function addOrderToTable(){
+        const id = $("#itemID-selector").val();
+        const name = $("#itemName").val();
+        const price = $("#unitPrice").val();
+        const qty = $("#orderQty").val();
+        const customerId = $("#customerID-selector").val();
+
+        const tot = price * qty;
+        let nextId;
+
+        function getLastID(){
+            return $.ajax({
+                url: "http://localhost:8081/mypos/order?option=GETID",
+                method: "GET",
+                contentType: "application/json",
+            });
+        }
+
+        getLastID().then( res => {
+            let lst = res.lastId;
+            console.log("last " + lst);
+
+            if(lst === null){
+                nextId= "O-0001";
+            }else{
+                let number = Number(lst.substr(2,6));
+                let nextNum = number + 1;
+
+                if(nextNum<10){
+                    nextId = "O-000"+nextNum;
+                }else if(nextNum<100){
+                    nextId = "O-00"+nextNum;
+                }else if(nextNum<1000){
+                    nextId = "O-0"+nextNum;
+                }else{
+                    nextId = "O-1000";
+                }
+            }
+            console.log(nextId + " this is next");
+
+            let orderArray = new OrderDTO(nextId,customerId,id,name,qty,price,tot);
+
+            console.log(orderArray);
+
+            if(id !== '' && qty !=='' &&  customerId !== ''){
+
+                let orQty = $("#itemQty").val();
+
+                console.log(qty + " < > = " + orQty);
+
+                if( Number(qty) < Number(orQty) ){
+
+                    let isExists=false;
+                    let index;
+                    let oldQty;
+                    let oldTot;
+
+                    if(orders.length === 0){
+                        isExists = false;
+                    }else{
+                        for (const i in orders) {
+                            if(orders[i].getORDItemId() === id){
+                                isExists = true;
+                                index=i;
+                                oldQty=orders[i].getORDUnits();
+                                oldTot=orders[i].getORDTotal();
+                            }
+                        }
+                    }
+
+                    if(isExists){
+                        orders[index].setORDUnits(Number(oldQty) + Number(qty));
+                        orders[index].setORDTotal(Number(tot) + Number(oldTot));
+
+                        loadAllItemsToOrderTable();
+
+                    }else{
+                        orders.push(orderArray);
+
+                        let i = orders.length-1;
+
+                        let row = `<tr><td>${orders[i].getORDItemId()}</td><td>${orders[i].getORDItemName()}</td><td>${orders[i].getORDUnits()}</td>
+                            <td>${orders[i].getORDUnitPrice()}</td><td>${orders[i].getORDTotal()}</td></tr>`;
+                        $("#orderTable").append(row);
+                    }
+                }else{
+                    alert("Quantity not sufficient !!")
+                }
+
+            }else{
+                alert("Please check all inputs in item form");
+            }
+
+            let allTot=0;
+            for (const i in orders) {
+                allTot+=orders[i].getORDTotal();
+            }
+            $("#txtPureTot").val(allTot);
+
+        });
+    }
+
+    function loadAllItemsToOrderTable(){
+        $("#order-body").empty();
+        for(const i in orders) {
+            let row = `<tr><td>${orders[i].getORDItemId()}</td><td>${orders[i].getORDItemName()}</td><td>${orders[i].getORDUnits()}</td>
+                    <td>${orders[i].getORDUnitPrice()}</td><td>${orders[i].getORDTotal()}</td></tr>`;
+            $("#orderTable").append(row);
+        }
+    }
+
+    function setTotal(){
+        let pureTot = $("#txtPureTot").val();
+        let discount = $("#txtDiscount").val();
+
+        let totBil = pureTot - (pureTot * discount)/100;
+        console.log(totBil + " rs");
+        $("#txtTotBil").val(totBil);
+    }
+
+    function createBill(){
+
+        loadToOrderTable();
+
+        let isExecuted = confirm("Are you sure to confirm this order?");
+        if(isExecuted){
+            $("#itemName").val(null);
+            $("#unitPrice").val(null);
+            $("#orderQty").val(null);
+            $("#itemQty").val(null);
+            $("#customName").val(null);
+            $("#customAddress").val(null);
+            $("#customTelNo").val(null);
+            $("#txtPureTot").val(null);
+            $("#txtDiscount").val(null);
+            $("#txtTotBil").val(null);
+
+            $("#orderTable>tbody tr").remove();
+        }
+    }
+
+    async function loadToOrderTable() {
+
+        let totAmount = Number($("#txtTotBil").val());
+        let pureTot = Number($("#txtPureTot").val());
+
+        console.log(" tot $ " + totAmount, pureTot);
+        let discount = pureTot - totAmount;
+
+        console.log(discount + " O " + pureTot);
+
+        var orderOB  = {
+            "orderId": orders[0].getORDOrderId(),
+            "cusId": orders[0].getORDCustomerId(),
+            "date": "2021-10-09",
+            dis: discount,
+            total: pureTot
+        }
+
+        console.log(orderOB.orderId, orderOB.cusId, orderOB.date, orderOB.dis, orderOB.total)
+
+        function loadToOrder(){
+            return $.ajax({
+                url: "http://localhost:8081/mypos/order",
+                method: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(orderOB),
+            });
+        }
+
+        loadToOrder().then( res =>{
+            if(res.status === 200 || res.status === 400){
+                console.log("orders length ",orders.length);
+                for (let i = 0; i < orders.length; i++) {
+                    let orderID = orders[i].getORDOrderId();
+                    let itemCode = orders[i].getORDItemId();
+                    let qty = orders[i].getORDUnits();
+                    let unitPrice = orders[i].getORDUnitPrice();
+                    let tot = orders[i].getORDTotal();
+
+                    console.log(orderID,itemCode,qty,unitPrice,tot);
+
+                    let orderDetailOB = {
+                        "orderId": orderID,
+                        "itemCode": itemCode,
+                        "quantity":qty,
+                        "uPrice":unitPrice,
+                        "total":tot
+                    }
+
+                    console.log(orderDetailOB.orderId, orderDetailOB.itemCode, orderDetailOB.quantity, orderDetailOB.uPrice, orderDetailOB.total + " fukk")
+
+                    $.ajax({
+                        url: "http://localhost:8081/mypos/placedorders",
+                        method: "POST",
+                        contentType: "application/json",
+                        data: JSON.stringify(orderDetailOB),
+                    });
+                }
+            }else{
+                console.log("oh nooo");
+            }
+        });
+    }
+
+    /*===========================================================*/
+
+    $("#orderHistory").click(function (){
+        loadOrderHistory();
+    });
+
+    $("#tblOrderDetail-body>tr").click(function (){
+        getOrderID(this);
+    });
+
+    function loadOrderHistory(){
+        $("#tblOrderDetail>tbody").empty();
+        $.ajax({
+            url: "http://localhost:8081/mypos/order?option=GETALL",
+            method: "GET",
+            success: function (resp) {
+                for (const or of resp.data) {
+                    let row = `<tr><td>${or.id}</td><td>${or.name}</td><td>${or.date}</td><td>${or.discount}</td><td>${or.total}</td></tr>`;
+                    $("#tblOrderDetail").append(row);
+                }
+                $("#tblOrderDetail-body>tr").click(function (){
+                    getOrderID(this);
+                });
+            }
+        });
+    }
+
+    function getOrderID(row){
+
+        $("#tblItemDetail>tbody").empty();
+
+        let cusID = $(row).children(":eq(0)").text();
+
+        $.ajax({
+            url: "http://localhost:8081/mypos/placedorders?cusID="+cusID,
+            method: "GET",
+            success: function (resp) {
+                for (const or of resp.data) {
+                    let row = `<tr><td>${or.itemCode}</td><td>${or.qty}</td><td>${or.unitPrice}</td><td>${or.total}</td></tr>`;
+                    $("#tblItemDetail").append(row);
+                }
+            }
+        });
+    }
 
 </script>
 
