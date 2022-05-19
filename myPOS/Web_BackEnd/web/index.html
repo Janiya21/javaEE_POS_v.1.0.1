@@ -1021,18 +1021,15 @@
         }
 
         loadToOrder().then( res =>{
-            console.log("ennadda yako");
             if(res.status === 200 || res.status === 400){
-                console.log("aneee manda " + orders.length);
+                console.log("orders length ",orders.length);
                 for (let i = 0; i < orders.length; i++) {
-                    console.log("ennadda yako2");
                     let orderID = orders[i].getORDOrderId();
                     let itemCode = orders[i].getORDItemId();
                     let qty = orders[i].getORDUnits();
                     let unitPrice = orders[i].getORDUnitPrice();
                     let tot = orders[i].getORDTotal();
 
-                    console.log("ennadda yako3");
                     console.log(orderID,itemCode,qty,unitPrice,tot);
 
                     let orderDetailOB = {
@@ -1053,7 +1050,7 @@
                     });
                 }
             }else{
-                console.log("Fuckkkkkkkkkkkkkkkkkkk")
+                console.log("oh nooo");
             }
         });
     }
