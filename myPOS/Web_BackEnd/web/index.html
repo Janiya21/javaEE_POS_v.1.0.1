@@ -1097,6 +1097,14 @@
                 }
             }
         });
+        $("#tblOrderDetail>tr").click(function (){
+            getOrderID(this);
+        });
+    }
+
+    function getOrderID(row){
+        let cusID = $(row).children(":eq(0)").text();
+
     }
 
 </script>
