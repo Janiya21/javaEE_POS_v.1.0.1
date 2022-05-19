@@ -7,10 +7,7 @@ import dto.OrderDTO;
 import dto.OrderDetailDTO;
 
 import javax.annotation.Resource;
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
-import javax.json.JsonReader;
+import javax.json.*;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -21,6 +18,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.util.List;
 
 @WebServlet(urlPatterns = "/placedorders")
 public class OrderDetailServlet  extends HttpServlet {
@@ -73,6 +71,48 @@ public class OrderDetailServlet  extends HttpServlet {
             objectBuilder.add("data", throwables.getLocalizedMessage());
             writer.print(objectBuilder.build());
             resp.setStatus(HttpServletResponse.SC_OK);
+            throwables.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String cusID = req.getParameter("cusID");
+        PrintWriter writer = resp.getWriter();
+
+        resp.setContentType("application/json");
+        resp.setStatus(200);
+
+        try {
+
+            JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
+
+            List<OrderDetailDTO> allOrders = orderDetailBO.getOrders(cusID);
+
+            for (OrderDetailDTO ac : allOrders) {
+                JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
+
+                objectBuilder.add("orderId", ac.getOrderID());
+                objectBuilder.add("itemCode", ac.getItemCode());
+                objectBuilder.add("qty", ac.getQty());
+                objectBuilder.add("unitPrice", ac.getUnitPrice());
+                objectBuilder.add("total", ac.getTotal());
+
+                arrayBuilder.add(objectBuilder.build());
+            }
+
+            JsonObjectBuilder response = Json.createObjectBuilder();
+            response.add("status", 200);
+            response.add("message", "Done");
+            response.add("data", arrayBuilder.build());
+            writer.print(response.build());
+
+        } catch (SQLException throwables) {
+            JsonObjectBuilder response = Json.createObjectBuilder();
+            response.add("status", 400);
+            response.add("message", "Error");
+            response.add("data", throwables.getLocalizedMessage());
+            writer.print(response.build());
             throwables.printStackTrace();
         }
     }

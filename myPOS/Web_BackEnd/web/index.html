@@ -438,7 +438,6 @@
                             <thead class="bg-dark text-white">
                             <tr>
                                 <th>Item Code</th>
-                                <th>Name</th>
                                 <th>Qty</th>
                                 <th>Unit Price</th>
                                 <th>Total Amount</th>
@@ -1085,6 +1084,10 @@
         loadOrderHistory();
     });
 
+    $("#tblOrderDetail-body>tr").click(function (){
+        getOrderID(this);
+    });
+
     function loadOrderHistory(){
         $("#tblOrderDetail>tbody").empty();
         $.ajax({
@@ -1095,16 +1098,29 @@
                     let row = `<tr><td>${or.id}</td><td>${or.name}</td><td>${or.date}</td><td>${or.discount}</td><td>${or.total}</td></tr>`;
                     $("#tblOrderDetail").append(row);
                 }
+                $("#tblOrderDetail-body>tr").click(function (){
+                    getOrderID(this);
+                });
             }
-        });
-        $("#tblOrderDetail>tr").click(function (){
-            getOrderID(this);
         });
     }
 
     function getOrderID(row){
+
+        $("#tblItemDetail>tbody").empty();
+
         let cusID = $(row).children(":eq(0)").text();
 
+        $.ajax({
+            url: "placedorders?cusID="+cusID,
+            method: "GET",
+            success: function (resp) {
+                for (const or of resp.data) {
+                    let row = `<tr><td>${or.itemCode}</td><td>${or.qty}</td><td>${or.unitPrice}</td><td>${or.total}</td></tr>`;
+                    $("#tblItemDetail").append(row);
+                }
+            }
+        });
     }
 
 </script>
