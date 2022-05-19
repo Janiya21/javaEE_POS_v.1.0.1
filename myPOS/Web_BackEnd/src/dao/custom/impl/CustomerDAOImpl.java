@@ -97,6 +97,7 @@ public class CustomerDAOImpl implements CustomerDAO {
             customer = new Customer(rst.getString(1),rst.getString(2),
                     rst.getString(3),Integer.parseInt(rst.getString(4)));
         }
+        connection.close();
         return customer;
     }
 }

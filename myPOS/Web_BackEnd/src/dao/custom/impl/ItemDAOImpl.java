@@ -93,6 +93,7 @@ public class ItemDAOImpl implements ItemDAO {
             item = new Item(rst.getString(1),rst.getString(2),
                    Double.parseDouble( rst.getString(3)),Integer.parseInt(rst.getString(4)));
         }
+        connection.close();
         return item;
     }
 }

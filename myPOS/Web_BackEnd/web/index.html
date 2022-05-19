@@ -973,7 +973,6 @@
     function createBill(){
 
         loadToOrderTable();
-        loadToOrderDetails();
 
         let isExecuted = confirm("Are you sure to confirm this order?");
         if(isExecuted){
@@ -988,12 +987,11 @@
             $("#txtDiscount").val(null);
             $("#txtTotBil").val(null);
 
-            orders = [];
             $("#orderTable>tbody tr").remove();
         }
     }
 
-    function loadToOrderTable() {
+    async function loadToOrderTable() {
 
         let totAmount = Number($("#txtTotBil").val());
         let pureTot = Number($("#txtPureTot").val());
@@ -1013,60 +1011,51 @@
 
         console.log(orderOB.orderId, orderOB.cusId, orderOB.date, orderOB.dis, orderOB.total)
 
-        $.ajax({
-            url: "order",
-            method: "POST",
-            contentType: "application/json",
-            data: JSON.stringify(orderOB),
-            success: function (res) {
-                if (res.status === 200) {
-                    alert(res.message);
-                } else if (res.status === 400) {
-                    alert(res.message);
-                } else {
-                    alert(res.data);
-                }
-            },
-            error: function (ob, errorStus) {
-                console.log(ob);
-            }
-        });
-
-    }
-
-    function loadToOrderDetails(){
-        for (let i = 0; i < orders.length; i++) {
-            let orderID = orders[i].getORDOrderId();
-            let itemCode = orders[i].getORDItemId();
-            let qty = orders[i].getORDUnits();
-            let unitPrice = orders[i].getORDUnitPrice();
-            let tot = orders[i].getORDTotal();
-
-            console.log(orderID,itemCode,qty,unitPrice,tot);
-
-            let orderDetailOB = {
-                "orderId": orderID,
-                "itemCode": itemCode,
-                "quantity":qty,
-                "uPrice":unitPrice,
-                "total":tot
-            }
-
-            console.log(orderDetailOB.orderId, orderDetailOB.itemCode, orderDetailOB.quantity, orderDetailOB.uPrice, orderDetailOB.total + " fukk")
-
-            $.ajax({
-                url: "placedorders",
+        function loadToOrder(){
+            return $.ajax({
+                url: "order",
                 method: "POST",
                 contentType: "application/json",
-                data: JSON.stringify(orderDetailOB),
-                success: function (res) {
-
-                },
-                error: function (ob, errorStus) {
-                    console.log(ob);
-                }
+                data: JSON.stringify(orderOB),
             });
         }
+
+        loadToOrder().then( res =>{
+            console.log("ennadda yako");
+            if(res.status === 200 || res.status === 400){
+                console.log("aneee manda " + orders.length);
+                for (let i = 0; i < orders.length; i++) {
+                    console.log("ennadda yako2");
+                    let orderID = orders[i].getORDOrderId();
+                    let itemCode = orders[i].getORDItemId();
+                    let qty = orders[i].getORDUnits();
+                    let unitPrice = orders[i].getORDUnitPrice();
+                    let tot = orders[i].getORDTotal();
+
+                    console.log("ennadda yako3");
+                    console.log(orderID,itemCode,qty,unitPrice,tot);
+
+                    let orderDetailOB = {
+                        "orderId": orderID,
+                        "itemCode": itemCode,
+                        "quantity":qty,
+                        "uPrice":unitPrice,
+                        "total":tot
+                    }
+
+                    console.log(orderDetailOB.orderId, orderDetailOB.itemCode, orderDetailOB.quantity, orderDetailOB.uPrice, orderDetailOB.total + " fukk")
+
+                    $.ajax({
+                        url: "placedorders",
+                        method: "POST",
+                        contentType: "application/json",
+                        data: JSON.stringify(orderDetailOB),
+                    });
+                }
+            }else{
+                console.log("Fuckkkkkkkkkkkkkkkkkkk")
+            }
+        });
     }
 
     /*===========================================================*/

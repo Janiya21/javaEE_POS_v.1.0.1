@@ -6,6 +6,6 @@
     url="jdbc:mysql://localhost:3306/companyMyPos"
     username="root"
     password="Janith20010121"
-    maxTotal="10"
-    initialSize="10"/>
+    maxTotal="6"
+    initialSize="6"/>
 </Context>
