@@ -134,6 +134,19 @@ public class ItemServlet extends HttpServlet {
                     throwables.printStackTrace();
                 }
                 break;
+
+            case "GETID":
+                try {
+                    String lastID = itemBO.getID();
+
+                    JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
+                    objectBuilder.add("lastId",lastID);
+                    writer.print(objectBuilder.build());
+
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+                break;
         }
     }
 

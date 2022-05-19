@@ -2,6 +2,7 @@ package dao.custom.impl;
 
 import controller.CustomerServlet;
 import controller.ItemServlet;
+import controller.OrderServlet;
 import dao.custom.ItemDAO;
 import entity.Customer;
 import entity.Item;
@@ -95,5 +96,20 @@ public class ItemDAOImpl implements ItemDAO {
         }
         connection.close();
         return item;
+    }
+
+    @Override
+    public String getID() throws SQLException {
+        Connection connection = OrderServlet.dataSource.getConnection();
+        ResultSet resultSet = connection.prepareStatement("SELECT itemcode FROM Item ORDER BY itemcode DESC LIMIT 1").executeQuery();
+
+        String string=null;
+
+        if (resultSet.next()) {
+            string = resultSet.getString(1);
+        }
+        connection.close();
+
+        return string;
     }
 }

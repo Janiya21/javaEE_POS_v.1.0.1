@@ -57,4 +57,9 @@ public class ItemBOImpl implements ItemBO {
         Item item = itemDAO.getItem(id);
         return new ItemDTO(item.getItemCode(),item.getItemName(),item.getUnitPrice(),item.getQty());
     }
+
+    @Override
+    public String getID() throws SQLException {
+        return itemDAO.getID();
+    }
 }
